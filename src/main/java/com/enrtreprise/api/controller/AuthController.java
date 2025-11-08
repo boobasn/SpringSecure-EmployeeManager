@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -31,7 +31,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Username already exists");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("USER"); // rôle par défaut
+        user.setRole(user.getRole()); // rôle par défaut
         return ResponseEntity.ok(userRepository.save(user));
     }
 

@@ -8,9 +8,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Data
 @Entity
-@Table(name = "employees")
-public class Employee {
-
+@Table(name = "managers")
+public class Manager {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,27 +24,7 @@ public class Employee {
     private String telephone;
     private String adresse;
     private String sexe;
-    private LocalDate dateNaissance;
-    private LocalDate dateEmbauche;
-    private double salaire;
 
-    @ManyToOne
-    @JoinColumn(name = "departement_id")
-    private Department departement;
-
-    @OneToOne
-    @JoinColumn(name = "contrat_id", referencedColumnName = "id")
-    private Contrat contrat;
-
-    @ManyToOne
-    @JoinColumn(name = "poste_id")
-    private Poste poste;
-
-    @OneToMany(mappedBy = "employee")
-    @JsonManagedReference
-    private List<Leave> leaves;
-
-    // ✅ Lien avec l'utilisateur
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

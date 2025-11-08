@@ -4,7 +4,7 @@ import java.util.Optional ; //import de la classe Optional de Java pour gérer l
 import org.springframework.beans.factory.annotation.Autowired; //import de l'annotation Autowired de Spring pour l'injection de dépendances.
 import org.springframework.stereotype.Service; //import l'annotation Service de Spring pour indiquer que cette classe est un service métier.
 import com.enrtreprise.api.model.Employee; //import de la classe Employee pour manipuler les objets employés.
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.enrtreprise.api.repository.EmployeeRepository; //import de l'interface EmployeeRepository pour accéder aux opérations CRUD sur les employés.
 
 import com.enrtreprise.api.repository.DepartmentRepository;
@@ -17,6 +17,8 @@ public class EmployeeService {
     @Autowired // Injection automatique de l'instance d'EmployeeRepository par Spring.
     private EmployeeRepository employeeRepository;
      
+    @Autowired 
+    private final PasswordEncoder passwordEncoder;
     @Autowired
     private ContratRepository contratRepository ;
 
@@ -35,8 +37,14 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
     public Employee saveEmployee(Employee employee) {
-        Employee savedEmployee = employeeRepository.save(employee);
-        return savedEmployee ;
+            if (employee.getUser() != null) {
+        // On chiffre le mot de passe AVANT l’enregistrement
+        String encodedPassword = passwordEncoder.encode(employee.getUser().getPassword());
+        employee.getUser().setPassword(encodedPassword);
+    }
+
+    // Maintenant on peut sauvegarder
+    return employeeRepository.save(employee);
     }
     public String deleteEmployee(Long id){
         
@@ -52,7 +60,6 @@ public class EmployeeService {
         if (updatedEmployee.getFirstName() != null) employee.setFirstName(updatedEmployee.getFirstName());
         if (updatedEmployee.getLastName() != null) employee.setLastName(updatedEmployee.getLastName());
         if (updatedEmployee.getEmail() != null) employee.setEmail(updatedEmployee.getEmail());
-        if (updatedEmployee.getPassword() != null) employee.setPassword(updatedEmployee.getPassword());
         return employeeRepository.save(employee);
     }
     

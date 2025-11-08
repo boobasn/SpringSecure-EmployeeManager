@@ -1,53 +1,68 @@
 package com.enrtreprise.api.controller;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody ;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import com.enrtreprise.api.model.Department;
 import com.enrtreprise.api.model.Employee;
 import com.enrtreprise.api.service.DepartmentService;
 
 @RestController
+@RequestMapping("/departments") // Regroupe toutes les routes sous /departments
 public class DepartmentController {
+
     @Autowired
     private DepartmentService departmentService;
 
-    @GetMapping("/departments")
-    public Iterable<Department> getallDepartments() {
+    /**
+     * Accessible uniquement aux ADMIN
+     * Affiche tous les départements
+     */
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public Iterable<Department> getAllDepartments() {
         return departmentService.getAllDepartments();
     }
-    @GetMapping("/departments/{id}")
-    public Optional<Department> getMethodName(@PathVariable long id) {
+
+    /**
+     * ADMIN ou MANAGER peuvent consulter un département
+     * Les employés n’y ont pas accès directement
+     */
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public Optional<Department> getDepartmentById(@PathVariable long id) {
         return departmentService.getDepartmentById(id);
     }
-    @PostMapping("/departments")
-    public ResponseEntity<?> saveDepartement(@RequestBody Department department) {
-               
+
+    /**
+     * Seul un ADMIN peut créer un département
+     */
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> saveDepartment(@RequestBody Department department) {
         return departmentService.saveDepartment(department);
     }
-    @GetMapping("/departments/{id}/employees")
-    
-    public Iterable<Employee> GetallEmployeeByDepartement(@PathVariable long  id) {
+
+    /**
+     * ADMIN et MANAGER peuvent consulter les employés d’un département
+     */
+    @GetMapping("/{id}/employees")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public Iterable<Employee> getAllEmployeeByDepartment(@PathVariable long id) {
         return departmentService.getAllEmployee(id);
     }
 
-    @DeleteMapping("/departments/{id}")
-    public String deleteDepartment(@PathVariable Long id){
+    /**
+     * Seul un ADMIN peut supprimer un département
+     */
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteDepartment(@PathVariable Long id) {
         return departmentService.delatedepartment(id);
     }
-    }
-    
-    
-    
-    
-    
 
+}

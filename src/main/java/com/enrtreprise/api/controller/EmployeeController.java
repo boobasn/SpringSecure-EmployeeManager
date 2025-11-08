@@ -3,55 +3,77 @@ package com.enrtreprise.api.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody ;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.access.prepost.PreAuthorize; // Pour sécuriser les méthodes
+import org.springframework.web.bind.annotation.*;
 
 import com.enrtreprise.api.model.Employee;
 import com.enrtreprise.api.service.EmployeeService;
 
 @RestController
+@RequestMapping("/employees") // Préfixe commun pour tous les endpoints
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
     /**
-    * Read - Get all employees
-    * @return - An Iterable object of Employee full filled
-    */
-    @GetMapping("/employees")
+     * Get all employees
+     * Seul un ADMIN peut lister tous les employés
+     */
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER','EMPLOYE')")
     public Iterable<Employee> getEmployees() {
         return employeeService.getEmployees();
     }
-    @PostMapping("/employees")
-    public Employee addEmployee(@RequestBody Employee employee)
-    {
-        employeeService.saveEmployee(employee) ;
-        return employee ;
+
+    /**
+     * Ajouter un nouvel employé
+     * ADMIN ou MANAGER peuvent ajouter des employés
+     */
+    @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public Employee addEmployee(@RequestBody Employee employee) {
+        employeeService.saveEmployee(employee);
+        return employee;
     }
-    @GetMapping("/employees/{id}")
-    public Optional<Employee> EmployeeById(@PathVariable Long id){
-               
-        return employeeService.getEmployeeById(id) ;
+
+    /**
+     * Obtenir un employé par son ID
+     * ADMIN, MANAGER ou l’employé lui-même peuvent accéder à ses données
+     */
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or @securityService.isSelf(#id)")
+    public Optional<Employee> employeeById(@PathVariable Long id) {
+        return employeeService.getEmployeeById(id);
     }
-    @GetMapping("/employees/name")
-    public Employee EmployeeByName(@RequestParam String firstname, @RequestParam String lastname){
-               
+
+    /**
+     * Obtenir un employé par son nom
+     * ADMIN et MANAGER seulement
+     */
+    @GetMapping("/name")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public Employee employeeByName(@RequestParam String firstname, @RequestParam String lastname) {
         return employeeService.getEmployeeByName(firstname, lastname);
     }
-    @DeleteMapping("/employees/delete/{id}")
-    public String deletEdemployee(@PathVariable Long id){
+
+    /**Supprimer un employé
+     * Seul ADMIN peut supprimer
+     * 
+     */
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteEmployee(@PathVariable Long id) {
         return employeeService.deleteEmployee(id);
     }
-    @PutMapping("/employees/{id}")
+
+    /**
+     * Mettre à jour un employé
+     * ADMIN et MANAGER peuvent mettre à jour ; un employé peut mettre à jour ses infos personnelles
+     */
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or @securityService.isSelf(#id)")
     public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
         return employeeService.updateEmployee(id, employee);
     }
-
 }
