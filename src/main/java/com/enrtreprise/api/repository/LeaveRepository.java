@@ -7,4 +7,8 @@ import com.enrtreprise.api.model.Leave; //import de la classe Employee située d
 @Repository
 public interface LeaveRepository extends CrudRepository<Leave,Long>{
     
+    Iterable<Leave> findByEmployeeId(Long employeeId);
+    
+    Iterable<Leave> findByStatus(Leave.Status status);
+
 }

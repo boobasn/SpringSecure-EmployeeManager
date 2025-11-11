@@ -54,8 +54,10 @@ public class Leave {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Status status ;
-
+    private Status status = Status.ATTENTE;
+    private String motif;
+    private String commentaireManager;
+    private LocalDateTime dateDemande = LocalDateTime.now();
     @ManyToOne
     @JoinColumn(name = "employee_id")
     @JsonBackReference

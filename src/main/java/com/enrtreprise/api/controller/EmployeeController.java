@@ -21,7 +21,7 @@ public class EmployeeController {
      * Seul un ADMIN peut lister tous les employés
      */
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER','EMPLOYE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public Iterable<Employee> getEmployees() {
         return employeeService.getEmployees();
     }
@@ -42,7 +42,7 @@ public class EmployeeController {
      * ADMIN, MANAGER ou l’employé lui-même peuvent accéder à ses données
      */
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or @securityService.isSelf(#id)")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or @securityService.isSelfEmployee(#id)")
     public Optional<Employee> employeeById(@PathVariable Long id) {
         return employeeService.getEmployeeById(id);
     }
@@ -62,7 +62,7 @@ public class EmployeeController {
      * 
      */
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public String deleteEmployee(@PathVariable Long id) {
         return employeeService.deleteEmployee(id);
     }
@@ -72,7 +72,7 @@ public class EmployeeController {
      * ADMIN et MANAGER peuvent mettre à jour ; un employé peut mettre à jour ses infos personnelles
      */
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or @securityService.isSelf(#id)")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or @securityService.isSelfEmployee(#id)")
     public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
         return employeeService.updateEmployee(id, employee);
     }
