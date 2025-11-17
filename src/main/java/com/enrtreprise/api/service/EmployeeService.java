@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service; //import l'annotation Service de 
 import com.enrtreprise.api.model.Employee; //import de la classe Employee pour manipuler les objets employés.
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.enrtreprise.api.repository.EmployeeRepository; //import de l'interface EmployeeRepository pour accéder aux opérations CRUD sur les employés.
-
+import com.enrtreprise.api.exception.EmployeeException;
 import com.enrtreprise.api.repository.DepartmentRepository;
+import java.util.List;
 import com.enrtreprise.api.repository.ContratRepository;
 import lombok.Data; //import de l'annotation lombok pour générer les getters et setters automatiquement.
-
 @Data // Génère les getters et setters pour les champs de la classe automatiquement.
 @Service // Indique que cette classe est un service métier dans le contexte Spring.
 public class EmployeeService {
@@ -25,16 +25,22 @@ public class EmployeeService {
     @Autowired
     private DepartmentRepository departmentRepository;
     // Méthode pour récupérer un employé par son identifiant.
-    public Optional<Employee> getEmployeeById(Long id) {
-        return employeeRepository.findById(id);
+    public Employee getEmployeeById(Long id) {
+        try{
+        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeException("Employé non trouvé avec l'ID : " + id));
+        }catch (EmployeeException e){
+            throw  e;
+        }catch (Exception e){
+             throw new EmployeeException("Erreur inattendue lors de la récupération de l'employé avec l'ID : " + id, e);
+        }
     }
     public Employee  getEmployeeByName(String  firstname ,String lastname ){
 
         return employeeRepository.findByFirstname( firstname,lastname);
     }
 
-    public Iterable<Employee> getEmployees() {
-        return employeeRepository.findAll();
+    public List<Employee> getEmployees() {
+        return (List<Employee>) employeeRepository.findAll();
     }
     public Employee saveEmployee(Employee employee) {
             if (employee.getUser() != null) {

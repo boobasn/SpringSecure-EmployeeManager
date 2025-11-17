@@ -1,79 +1,93 @@
 package com.enrtreprise.api.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize; // Pour sécuriser les méthodes
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
+import com.enrtreprise.api.dto.EmployeeDTO;
+import com.enrtreprise.api.mapper.EmployeeMapper;
 import com.enrtreprise.api.model.Employee;
 import com.enrtreprise.api.service.EmployeeService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
-@RequestMapping("/employees") // Préfixe commun pour tous les endpoints
+@RequestMapping("/employees")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
     /**
-     * Get all employees
-     * Seul un ADMIN peut lister tous les employés
+     * Obtenir tous les employés
      */
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public Iterable<Employee> getEmployees() {
-        return employeeService.getEmployees();
+    public ResponseEntity<List<EmployeeDTO>> getEmployees() {
+        List<Employee> employees = employeeService.getEmployees();
+
+        List<EmployeeDTO> dtos = employees.stream()
+                .map(EmployeeMapper::toDTO)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dtos);
     }
 
     /**
-     * Ajouter un nouvel employé
-     * ADMIN ou MANAGER peuvent ajouter des employés
+     * Ajouter un employé
      */
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public Employee addEmployee(@RequestBody Employee employee) {
-        employeeService.saveEmployee(employee);
-        return employee;
+    public ResponseEntity<EmployeeDTO> addEmployee(@RequestBody EmployeeDTO dto) {
+
+        Employee employee = EmployeeMapper.toEntity(dto);
+        Employee saved = employeeService.saveEmployee(employee);
+
+        return ResponseEntity.ok(EmployeeMapper.toDTO(saved));
     }
 
     /**
-     * Obtenir un employé par son ID
-     * ADMIN, MANAGER ou l’employé lui-même peuvent accéder à ses données
+     * Obtenir un employé par ID
      */
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or @securityService.isSelfEmployee(#id)")
-    public Optional<Employee> employeeById(@PathVariable Long id) {
-        return employeeService.getEmployeeById(id);
+    public ResponseEntity<EmployeeDTO> employeeById(@PathVariable Long id) {
+        Employee employee = employeeService.getEmployeeById(id);
+        return ResponseEntity.ok(EmployeeMapper.toDTO(employee));
     }
 
     /**
-     * Obtenir un employé par son nom
-     * ADMIN et MANAGER seulement
+     * Rechercher un employé par nom
      */
     @GetMapping("/name")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public Employee employeeByName(@RequestParam String firstname, @RequestParam String lastname) {
-        return employeeService.getEmployeeByName(firstname, lastname);
+    public ResponseEntity<EmployeeDTO> employeeByName(@RequestParam String firstname, @RequestParam String lastname) {
+        Employee employee = employeeService.getEmployeeByName(firstname, lastname);
+        return ResponseEntity.ok(EmployeeMapper.toDTO(employee));
     }
 
-    /**Supprimer un employé
-     * Seul ADMIN peut supprimer
-     * 
+    /**
+     * Supprimer un employé
      */
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public String deleteEmployee(@PathVariable Long id) {
-        return employeeService.deleteEmployee(id);
+    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
+        String result = employeeService.deleteEmployee(id);
+        return ResponseEntity.ok(result);
     }
 
     /**
      * Mettre à jour un employé
-     * ADMIN et MANAGER peuvent mettre à jour ; un employé peut mettre à jour ses infos personnelles
      */
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or @securityService.isSelfEmployee(#id)")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-        return employeeService.updateEmployee(id, employee);
+    public ResponseEntity<EmployeeDTO> updateEmployee(
+            @PathVariable Long id,
+            @RequestBody EmployeeDTO dto) {
+
+        Employee updated = employeeService.updateEmployee(id, EmployeeMapper.toEntity(dto));
+        return ResponseEntity.ok(EmployeeMapper.toDTO(updated));
     }
 }

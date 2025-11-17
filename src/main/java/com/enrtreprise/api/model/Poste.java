@@ -18,6 +18,10 @@ import lombok.Data;
 @Table(name = "postes")
 
 public class Poste {
+
+    public static Poste valueOf(String poste) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id ;
