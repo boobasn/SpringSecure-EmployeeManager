@@ -5,9 +5,9 @@ import org.springframework.stereotype.Repository; //import l'annotation Reposito
 import com.enrtreprise.api.model.Leave; //import de la classe Employee située dans le package model.
 
 @Repository
-public interface LeaveRepository extends CrudRepository<Leave,Long>{
+public interface LeaveRepository extends CrudRepository<Leave, String> {
     
-    Iterable<Leave> findByEmployeeId(Long employeeId);
+    Iterable<Leave> findByEmployeeId(String employeeId);
     
     Iterable<Leave> findByStatus(Leave.Status status);
 

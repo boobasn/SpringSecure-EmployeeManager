@@ -4,6 +4,6 @@ import org.springframework.stereotype.Repository; //import l'annotation Reposito
 import com.enrtreprise.api.model.Poste; //import de la classe Employee située dans le package model.
 
 @Repository
-public interface PosteRepository extends CrudRepository<Poste,Long>{
+public interface PosteRepository extends CrudRepository<Poste, String> {
     
 }

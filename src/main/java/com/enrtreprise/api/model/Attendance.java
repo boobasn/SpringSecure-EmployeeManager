@@ -21,8 +21,8 @@ public class Attendance {
     RETARD,
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id ;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String  id ;
 
     private LocalDate date ;
     private LocalTime heureArrive ;

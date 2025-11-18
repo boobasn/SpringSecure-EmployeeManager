@@ -1,0 +1,5 @@
+package com.enrtreprise.api.dto;
+
+public class DepartementDTO {
+    
+}

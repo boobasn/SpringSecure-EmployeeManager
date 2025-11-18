@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository; //import l'annotation Reposito
 import com.enrtreprise.api.model.Attendance;
 
 @Repository
-public interface AttendanceRepository extends CrudRepository<Attendance,Long> {
+public interface AttendanceRepository extends CrudRepository<Attendance,String> {
     
 }

@@ -8,9 +8,9 @@ import com.enrtreprise.api.model.Department; //import de la classe Employee situ
 import com.enrtreprise.api.model.Employee;
 import java.util.Optional ;
 @Repository
-public interface DepartmentRepository extends CrudRepository<Department,Long>{
+public interface DepartmentRepository extends CrudRepository<Department, String> {
        
     @Query(value ="SELECT  * FROM employees WHERE departement_id = :departmentId ", nativeQuery = true)
-    Iterable<Employee> findAllEmployee(@Param("departmentId") Long departmentId );
+    Iterable<Employee> findAllEmployee(@Param("departmentId") String departmentId );
     Optional<Department> findByName(String name);
 }

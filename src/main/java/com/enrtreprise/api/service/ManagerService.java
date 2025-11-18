@@ -38,12 +38,12 @@ public class ManagerService {
 
     // recuperer un manager par son id
 
-    public Optional<Manager> getManagerById(Long id) {
+    public Optional<Manager> getManagerById(String id) {
         return managerRepository.findById(id);
     }
 
     // modifer un manager
-    public Manager updateManager(Long id , Manager manager){
+    public Manager updateManager(String id , Manager manager){
         Optional<Manager> opt  =  managerRepository.findById(id);
         if (!opt.isPresent()){
             throw new  RuntimeException("Manager not found with id: " + id);
@@ -59,7 +59,7 @@ public class ManagerService {
 
     }
     // supprimer un manager
-    public String deleteManager(Long id){
+    public String deleteManager(String id){
         managerRepository.deleteById(id);
         return "Manager supprime avec success" ;
     }

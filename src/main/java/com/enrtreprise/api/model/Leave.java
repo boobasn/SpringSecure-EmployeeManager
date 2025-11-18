@@ -40,8 +40,8 @@ public class Leave {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id ;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id ;
     
     @Column(name = "type")
     @Enumerated(EnumType.STRING)

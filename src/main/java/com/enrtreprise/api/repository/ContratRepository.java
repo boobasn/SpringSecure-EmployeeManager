@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository; //import l'annotation Reposito
 import com.enrtreprise.api.model.Contrat; //import de la classe Employee située dans le package model.
 
 @Repository
-public interface ContratRepository extends CrudRepository<Contrat , Long>{
+public interface ContratRepository extends CrudRepository<Contrat , String> {
     
 }

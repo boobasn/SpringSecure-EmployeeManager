@@ -11,8 +11,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "managers")
 public class Manager {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name  = "first_name")
     private String firstName;

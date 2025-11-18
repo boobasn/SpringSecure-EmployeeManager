@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 public class EmployeeDTO {
 
-    private Long id;                  // Identifiant unique de l’employé
+    private String id;                  // Identifiant unique de l’employé
     private String firstName;         // Prénom
     private String lastName;          // Nom
     private String email;             // Email professionnel
@@ -19,6 +19,6 @@ public class EmployeeDTO {
     private LocalDate dateEmbauche;   // Date d'embauche
     private String sexe;              // Sexe (M/F)
     private String adresse;           // Adresse de l'employé
-    private Long userId;              // Référence vers l’utilisateur lié (pour l’authentification)
+    private String userId;              // Référence vers l’utilisateur lié (pour l’authentification)
    // private Long managerId;           // Manager responsable (si applicable)
 }

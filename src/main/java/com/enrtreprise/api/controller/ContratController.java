@@ -4,9 +4,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import com.enrtreprise.api.dto.ContratDTO;
+import com.enrtreprise.api.mapper.ContratMapper;
+import com.enrtreprise.api.mapper.EmployeeMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
+import java.util.stream.Collectors;
 import com.enrtreprise.api.model.Contrat;
 import com.enrtreprise.api.service.ContratService;
 
@@ -22,8 +26,12 @@ public class ContratController {
      */
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public Iterable<Contrat> getAllContrat() {
-        return contratService.getAllContrats();
+    public ResponseEntity<List<ContratDTO>> getAllContrat() {
+        List<Contrat> contrats = contratService.getAllContrats();
+        List<ContratDTO> contratDTOs = contrats.stream()
+                .map(ContratMapper::toDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(contratDTOs);
     }
 
     /**
@@ -32,8 +40,9 @@ public class ContratController {
      */
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
-    public Optional<Contrat> getContratById(@PathVariable Long id) {
-        return contratService.getContratById(id);
+    public ResponseEntity<ContratDTO> getContratById(@PathVariable String id) {
+        Contrat contrat = contratService.getContratById(id);
+        return ResponseEntity.ok(ContratMapper.toDTO(contrat));
     }
 
     /**
@@ -41,8 +50,9 @@ public class ContratController {
      */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public Contrat createContrat(@RequestBody Contrat contrat) {
-        return contratService.saveContrat(contrat);
+    public ResponseEntity<ContratDTO> createContrat(@RequestBody Contrat contrat) {
+        Contrat savedContrat = contratService.saveContrat(contrat);
+        return ResponseEntity.ok(ContratMapper.toDTO(savedContrat));
     }
 
     /**
@@ -50,9 +60,9 @@ public class ContratController {
      */
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public Contrat updateContrat(@PathVariable Long id, @RequestBody Contrat contrat) {
+    public ResponseEntity<ContratDTO> updateContrat(@PathVariable String id, @RequestBody Contrat contrat) {
         contrat.setId(id);
-        return contratService.saveContrat(contrat);
+        return ResponseEntity.ok(ContratMapper.toDTO(contratService.saveContrat(contrat)));
     }
 
     /**
@@ -60,7 +70,8 @@ public class ContratController {
      */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String deleteContrat(@PathVariable long id) {
-        return contratService.deleteContrat(id);
+    public ResponseEntity<String> deleteContrat(@PathVariable String id) {
+        String result = contratService.deleteContrat(id);
+        return ResponseEntity.ok(result);
     }
 }

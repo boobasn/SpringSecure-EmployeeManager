@@ -24,7 +24,7 @@ public class ManagerController {
 
         @GetMapping("/{id}")
         @PreAuthorize("hasRole('ADMIN')or @securityService.isSelfManager(#id)")
-        public Optional<Manager> getManagerById(@PathVariable Long id) {
+        public Optional<Manager> getManagerById(@PathVariable String id) {
             return managerService.getManagerById(id);
         }
 
@@ -35,13 +35,13 @@ public class ManagerController {
         }
         @PutMapping("/{id}")
         @PreAuthorize("hasRole('ADMIN') or @securityService.isSelfManager(#id)")
-        public Manager updateManager(@PathVariable Long id, @RequestBody Manager manager) {
+        public Manager updateManager(@PathVariable String id, @RequestBody Manager manager) {
             return managerService.updateManager(id, manager);
         }
 
         @DeleteMapping("/{id}")
         @PreAuthorize("hasRole('ADMIN')")
-        public void deleteManager(@PathVariable Long id) {
+        public void deleteManager(@PathVariable String id) {
             managerService.deleteManager(id);
         }
 }

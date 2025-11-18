@@ -34,7 +34,7 @@ public class DepartmentController {
      */
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public Optional<Department> getDepartmentById(@PathVariable long id) {
+    public Optional<Department> getDepartmentById(@PathVariable String id) {
         return departmentService.getDepartmentById(id);
     }
 
@@ -52,7 +52,7 @@ public class DepartmentController {
      */
     @GetMapping("/{id}/employees")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public Iterable<Employee> getAllEmployeeByDepartment(@PathVariable long id) {
+    public Iterable<Employee> getAllEmployeeByDepartment(@PathVariable String id) {
         return departmentService.getAllEmployee(id);
     }
 
@@ -61,7 +61,7 @@ public class DepartmentController {
      */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String deleteDepartment(@PathVariable Long id) {
+    public String deleteDepartment(@PathVariable String id) {
         return departmentService.delatedepartment(id);
     }
 

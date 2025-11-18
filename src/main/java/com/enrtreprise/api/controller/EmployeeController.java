@@ -53,7 +53,7 @@ public class EmployeeController {
      */
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or @securityService.isSelfEmployee(#id)")
-    public ResponseEntity<EmployeeDTO> employeeById(@PathVariable Long id) {
+    public ResponseEntity<EmployeeDTO> employeeById(@PathVariable String id) {
         Employee employee = employeeService.getEmployeeById(id);
         return ResponseEntity.ok(EmployeeMapper.toDTO(employee));
     }
@@ -73,7 +73,7 @@ public class EmployeeController {
      */
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<String> deleteEmployee(@PathVariable String id) {
         String result = employeeService.deleteEmployee(id);
         return ResponseEntity.ok(result);
     }
@@ -84,7 +84,7 @@ public class EmployeeController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or @securityService.isSelfEmployee(#id)")
     public ResponseEntity<EmployeeDTO> updateEmployee(
-            @PathVariable Long id,
+            @PathVariable String id,
             @RequestBody EmployeeDTO dto) {
 
         Employee updated = employeeService.updateEmployee(id, EmployeeMapper.toEntity(dto));

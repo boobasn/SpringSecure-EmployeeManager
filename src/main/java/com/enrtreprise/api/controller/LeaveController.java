@@ -14,13 +14,13 @@ public class LeaveController {
     private LeaveService leaveService;
 
     @GetMapping("/employee/{employeeId}")
-    public Iterable<Leave> getLeavesByEmployeeId(@PathVariable Long employeeId) {
+    public Iterable<Leave> getLeavesByEmployeeId(@PathVariable String employeeId) {
         return leaveService.getLeavesByEmployeeId(employeeId);
     }
     
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER') or @securityService.isSelfEmployee(#id)")
-    public Leave getLeaveById(@PathVariable Long id) {
+    public Leave getLeaveById(@PathVariable String id) {
         return leaveService.getLeaveById(id).orElseThrow(() -> new RuntimeException("Leave not found with id: " + id));
     }
 
@@ -31,23 +31,23 @@ public class LeaveController {
     }
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
-    public Leave updateLeave(@PathVariable Long id, @RequestBody Leave leave) {
+    public Leave updateLeave(@PathVariable String id, @RequestBody Leave leave) {
         return leaveService.updateLeave(id, leave);
     }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")   
-    public void deleteLeave(@PathVariable Long id) {
+    public void deleteLeave(@PathVariable String id) {
         leaveService.deleteLeave(id);
     }
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER') ")
     @PostMapping("/{id}/approve")
-    public Leave approveLeave(@PathVariable Long id) {
+    public Leave approveLeave(@PathVariable String id) {
         return leaveService.approveLeave(id);
     }
 
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
-    public Leave rejectLeave(@PathVariable Long id, @RequestBody String commentaireManager) {
+    public Leave rejectLeave(@PathVariable String id, @RequestBody String commentaireManager) {
         return leaveService.rejectLeave(id, commentaireManager);
     }
 }

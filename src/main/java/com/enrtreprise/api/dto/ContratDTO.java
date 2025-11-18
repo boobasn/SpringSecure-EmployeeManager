@@ -11,15 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor 
 @NoArgsConstructor
 public class ContratDTO {
-    private Long id;
+    private String id;
     private Contrat.TypeContrat typeContrat;
     private LocalDate dateDebut;
     private LocalDate dateFin;
     private Double salaire;
     private String statut;
-    // Champs de l'employé lié au contrat
-    private String employeeFirstName;
-    private String employeeLastName;
-    private String employeeEmail;
+    private String employeeId;
 }
 

@@ -9,7 +9,7 @@ import com.enrtreprise.api.model.Manager; //import de la classe Employee située
 
 
 @Repository 
-public interface ManagerRepository extends CrudRepository<Manager, Long>  {
+public interface ManagerRepository extends CrudRepository<Manager, String> {
     
     @Query(value ="SELECT * FROM managers WHERE first_name = :first_name  AND last_name = :last_name", nativeQuery = true)
     Employee findByFirstname(@Param("first_name") String first_name , @Param("last_name") String last_name);

@@ -41,7 +41,7 @@ public class DepartmentService {
         return departmentRepository.findAll();
     }
     //recuperer un contract par son id
-    public Optional<Department> getDepartmentById(Long id) 
+    public Optional<Department> getDepartmentById(String id) 
     {
         return departmentRepository.findById(id);
     }
@@ -49,14 +49,14 @@ public class DepartmentService {
     // supprimer un contrat
  
 
-    public String delatedepartment(Long id)
+    public String delatedepartment(String id)
     {
         departmentRepository.deleteById(id);
 
         return "contrat supprimer avec succes" ;
     }
 
-    public Iterable<Employee> getAllEmployee(Long  departmentId)
+    public Iterable<Employee> getAllEmployee(String  departmentId)
     {
         return departmentRepository.findAllEmployee(departmentId);
 

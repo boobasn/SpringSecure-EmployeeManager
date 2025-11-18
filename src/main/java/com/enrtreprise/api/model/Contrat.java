@@ -29,8 +29,8 @@ public class Contrat {
     FREELANCE
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id ;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id ;
     @Enumerated(EnumType.STRING)
 
     @Column(name ="type")

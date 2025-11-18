@@ -28,7 +28,7 @@ public class SecurityService {
      * Vérifie si l'utilisateur authentifié correspond à l'ID du User.
      * Utilisé pour @PreAuthorize("hasRole('ADMIN') or @securityService.isSelf(#id)")
      */
-    public boolean isSelf(Long userId) {
+    public boolean isSelf(String userId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) return false;
 
@@ -40,7 +40,7 @@ public class SecurityService {
     /**
      * Vérifie si l'utilisateur authentifié est lié à l'Employee avec cet ID
      */
-    public boolean isSelfEmployee(Long employeeId) {
+    public boolean isSelfEmployee(String employeeId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) return false;
 
@@ -55,7 +55,7 @@ public class SecurityService {
     /**
      * Vérifie si l'utilisateur authentifié est lié au Manager avec cet ID
      */
-    public boolean isSelfManager(Long managerId) {
+    public boolean isSelfManager(String managerId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) return false;
 

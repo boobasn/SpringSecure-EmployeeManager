@@ -23,12 +23,12 @@ public class LeaveService {
         leave.setDateDemande(LocalDateTime.now());
         return leaveRepository.save(leave);
     }
-    public String deleteLeave(Long id){
+    public String deleteLeave(String id){
         
         leaveRepository.deleteById(id);
         return "leave supprime avec success" ;
     }
-    public Leave updateLeave(Long id, Leave updatedLeave){
+    public Leave updateLeave(String id, Leave updatedLeave){
         Optional<Leave> opt  =  leaveRepository.findById(id);
         if (!opt.isPresent()){
             throw new  RuntimeException("Leave not found with id: " + id);
@@ -42,15 +42,15 @@ public class LeaveService {
         return leaveRepository.save(leave);
 
     }
-    public Optional<Leave> getLeaveById(Long id) {
+    public Optional<Leave> getLeaveById(String id) {
         return leaveRepository.findById(id);
     }
 
-    public Iterable<Leave> getLeavesByEmployeeId(Long employeeId) {
+    public Iterable<Leave> getLeavesByEmployeeId(String employeeId) {
         return leaveRepository.findByEmployeeId(employeeId);
     }
 
-    public Leave approveLeave(Long id) {
+    public Leave approveLeave(String id) {
         Optional<Leave> opt = leaveRepository.findById(id);
         if (!opt.isPresent()) {
             throw new RuntimeException("Leave not found with id: " + id);
@@ -61,7 +61,7 @@ public class LeaveService {
         return leaveRepository.save(leave);
     }
 
-    public Leave rejectLeave(Long id, String commentaireManager) {
+    public Leave rejectLeave(String id, String commentaireManager) {
         Optional<Leave> opt = leaveRepository.findById(id);
         if (!opt.isPresent()) {
             throw new RuntimeException("Leave not found with id: " + id);

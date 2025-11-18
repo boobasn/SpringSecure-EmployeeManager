@@ -23,8 +23,8 @@ public class Poste {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id ;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id ;
 
 
     private String titre;
