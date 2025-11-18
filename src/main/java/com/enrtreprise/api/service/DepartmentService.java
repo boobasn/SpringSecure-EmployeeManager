@@ -1,13 +1,21 @@
 package com.enrtreprise.api.service;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import java.util.Optional ; //import de la classe Optional de Java pour gérer les valeurs pouvant être nulles.
+import com.enrtreprise.api.exception.BadRequestException;
+import com.enrtreprise.api.exception.ResourceNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired; //import de l'annotation Autowired de Spring pour l'injection de dépendances.
 import org.springframework.stereotype.Service; //import l'annotation Service de Spring pour indiquer que cette classe est un service métier.
+
 import com.enrtreprise.api.model.Department; //import de la classe Employee pour manipuler les objets employés.
 import com.enrtreprise.api.repository.DepartmentRepository; //import de l'interface EmployeeRepository pour accéder aux opérations CRUD sur les employés.
 import com.enrtreprise.api.model.Employee; 
+
 import lombok.Data; //import de l'annotation lombok pour générer les getters et setters automatiquement.
 
 @Data // Génère les getters et setters pour les champs de la classe automatiquement.
@@ -17,33 +25,53 @@ public class DepartmentService {
     DepartmentRepository departmentRepository;
 
     // creer un contrat 
-    public ResponseEntity<?> saveDepartment(Department department)
+    public Department saveDepartment(Department department)
     {
-        Optional<Department> existingDepartment = departmentRepository.findByName(department.getName());
-        if (existingDepartment.isPresent()) {
-            // Si le département existe déjà → on le renvoie simplement
-            System.out.println(" Département déjà existant : " + department.getName());
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body("Le département existe déjà : " + department.getName());
-        
+        if (departmentExists(department.getName())) {
+            throw new BadRequestException("Le département avec le nom '" + department.getName() + "' existe déjà.");
         }
-        Department savedepartment=  departmentRepository.save(department);  
-        System.out.println(" Département créé : " + savedepartment.getName());
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(savedepartment);    
+        
+        try {
+            return departmentRepository.save(department);
+        } catch (Exception e) {
+            throw e;
+        } 
+    }
+    // verifier si le departement existe
+    public boolean departmentExists(String name)
+    {
+        try {
+            Optional<Department> department = departmentRepository.findByName(name);
+            if (department.isPresent()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            throw e;
+        } 
     }
 
     // recuperer tout contrat 
-    public Iterable<Department> getAllDepartments()
+    public List<Department> getAllDepartments()
     {
-        return departmentRepository.findAll();
+        try {
+        return (List<Department>) departmentRepository.findAll();
+        } catch (Exception e) {
+            throw e;
+        }
     }
     //recuperer un contract par son id
-    public Optional<Department> getDepartmentById(String id) 
+    public Department getDepartmentById(String id) 
     {
-        return departmentRepository.findById(id);
+     try{       
+        return departmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Département non trouvé avec l'ID : " + id));
+        
+        } catch (ResourceNotFoundException e){
+            throw e ;
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     // supprimer un contrat
@@ -56,11 +84,32 @@ public class DepartmentService {
         return "contrat supprimer avec succes" ;
     }
 
-    public Iterable<Employee> getAllEmployee(String  departmentId)
+    public List<Employee> getAllEmployee(String  departmentId)
     {
-        return departmentRepository.findAllEmployee(departmentId);
+        return (List<Employee>) departmentRepository.findAllEmployee(departmentId);
 
         
     }
+    public Department updateDepartment(String id, Department updateDepartment)
+    {
+        Optional<Department> opt  =  departmentRepository.findById(id);
+        if (!opt.isPresent()) {
+            throw new ResourceNotFoundException("Département non trouvé avec l'ID : " + id);
+        }
 
+        try {
+            Department existingDepartment = opt.get();
+            if (updateDepartment.getName() != null) {
+                existingDepartment.setName(updateDepartment.getName());
+            }
+            if (updateDepartment.getDescription() != null) {
+                existingDepartment.setDescription(updateDepartment.getDescription());
+            }
+            return departmentRepository.save(existingDepartment);
+            
+
+        } catch (Exception e) {
+            throw e;
+        } 
+    }
 }
