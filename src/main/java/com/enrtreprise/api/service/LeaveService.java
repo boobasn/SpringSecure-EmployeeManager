@@ -4,8 +4,11 @@ import org.springframework.stereotype.Service; //import l'annotation Service de 
 import com.enrtreprise.api.repository.LeaveRepository;
 import com.enrtreprise.api.model.Leave;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional ;
+import com.enrtreprise.api.exception.ResourceNotFoundException;
+import com.enrtreprise.api.exception.BadRequestException;
 import lombok.Data; //import de l'annotation lombok pour générer les getters et setters automatiquement.
-import java.util.Optional ; //import de la classe Optional de Java pour gérer les valeurs pouvant être nulles.
 @Data // Génère les getters et setters pour les champs de la classe automatiquement.
 @Service // Indique que cette classe est un service métier dans le contexte Spring.
 public class LeaveService {
@@ -14,8 +17,12 @@ public class LeaveService {
     @Autowired
     private LeaveRepository leaveRepository;
 
-    public Iterable<Leave> getLeaves() {
-        return leaveRepository.findAll();
+    public List<Leave> getLeaves() {
+        try {
+         return (List<Leave>) leaveRepository.findAll();
+        } catch (Exception e) {
+            throw new BadRequestException("Erreur lors de la récupération des congés: " + e.getMessage());
+        }
     }
 
     public Leave saveLeave(Leave leave) {
@@ -42,18 +49,26 @@ public class LeaveService {
         return leaveRepository.save(leave);
 
     }
-    public Optional<Leave> getLeaveById(String id) {
-        return leaveRepository.findById(id);
+    public Leave getLeaveById(String id) {
+        Optional<Leave> opt = leaveRepository.findById(id);
+        if (!opt.isPresent()) {
+            throw new ResourceNotFoundException("Leave not found with id: " + id);
+        }
+        return opt.get();
     }
 
-    public Iterable<Leave> getLeavesByEmployeeId(String employeeId) {
-        return leaveRepository.findByEmployeeId(employeeId);
+    public List<Leave> getLeavesByEmployeeId(String employeeId) {
+        try {
+        return  leaveRepository.findByEmployeeId(employeeId);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public Leave approveLeave(String id) {
         Optional<Leave> opt = leaveRepository.findById(id);
         if (!opt.isPresent()) {
-            throw new RuntimeException("Leave not found with id: " + id);
+            throw new ResourceNotFoundException("Leave not found with id: " + id);
         }
         Leave leave = opt.get();
         leave.setStatus(Leave.Status.APPROUVE);
@@ -64,20 +79,33 @@ public class LeaveService {
     public Leave rejectLeave(String id, String commentaireManager) {
         Optional<Leave> opt = leaveRepository.findById(id);
         if (!opt.isPresent()) {
-            throw new RuntimeException("Leave not found with id: " + id);
+            throw new ResourceNotFoundException("Leave not found with id: " + id);
         }
         Leave leave = opt.get();
         leave.setStatus(Leave.Status.REFUSE);
         leave.setCommentaireManager(commentaireManager);
         return leaveRepository.save(leave);
     }
-    public Iterable<Leave> getAllPendingLeaves() {
-        return leaveRepository.findByStatus(Leave.Status.ATTENTE);
+    public List<Leave> getAllPendingLeaves() {
+        try {
+        return (List<Leave>) leaveRepository.findByStatus(Leave.Status.ATTENTE);
+        } catch (Exception e) {
+            throw e;
+        }
     }
-    public Iterable<Leave> getAllApprovedLeaves() {
-        return leaveRepository.findByStatus(Leave.Status.APPROUVE);
+    public List<Leave> getAllApprovedLeaves() {
+        try {
+            return (List<Leave>) leaveRepository.findByStatus(Leave.Status.APPROUVE);
+        } catch (Exception e) {
+            throw e;
+        }
+        
     }
-    public Iterable<Leave> getAllRejectedLeaves() {
-        return leaveRepository.findByStatus(Leave.Status.REFUSE);
+    public List<Leave> getAllRejectedLeaves() {
+        try {
+            return (List<Leave>) leaveRepository.findByStatus(Leave.Status.REFUSE);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }
