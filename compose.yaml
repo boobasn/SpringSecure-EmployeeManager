@@ -17,7 +17,18 @@ services:
       - db
     networks:
       - app-network
-
+  
+  frontend:
+    build: 
+      context: ./frontend
+    container_name: angular_frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "4200:52804"
+    
+    command: npm run start -- --host 0.0.0.0 --port 52804 
   db:
     image: postgres:15
     restart: always
