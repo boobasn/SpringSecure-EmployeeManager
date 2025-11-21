@@ -17,7 +17,7 @@ public class EmployeeMapper {
         dto.setDateEmbauche(employee.getDateEmbauche());
         dto.setSexe(employee.getSexe());
         dto.setAdresse(employee.getAdresse());
-        if (employee.getUser() != null) dto.setUserId(employee.getUser().getId());
+        if (employee.getUser() != null) dto.setUser(employee.getUser());
        // if (employee.getManager() != null) dto.setManagerId(employee.getManager().getId());
         return dto;
     }
@@ -34,6 +34,7 @@ public class EmployeeMapper {
         employee.setSexe(dto.getSexe());
         employee.setAdresse(dto.getAdresse());
         // user et manager seront reliés dans le service
+        if (dto.getUser() != null) employee.setUser(dto.getUser());
         return employee;
     }
 }

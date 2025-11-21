@@ -2,7 +2,7 @@ package com.enrtreprise.api.dto;
 
 import lombok.Data;
 import java.time.LocalDate;
-
+import com.enrtreprise.api.model.User;
 /**
  * DTO pour représenter un employé sans exposer toute l'entité Employee.
  * Cela protège les données sensibles et permet un meilleur contrôle du format de sortie.
@@ -19,6 +19,6 @@ public class EmployeeDTO {
     private LocalDate dateEmbauche;   // Date d'embauche
     private String sexe;              // Sexe (M/F)
     private String adresse;           // Adresse de l'employé
-    private String userId;              // Référence vers l’utilisateur lié (pour l’authentification)
+    private User user;              // Référence vers l’utilisateur lié (pour l’authentification)
    // private Long managerId;           // Manager responsable (si applicable)
 }
