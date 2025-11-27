@@ -11,10 +11,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -38,6 +40,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
         try {
+            log.debug("Incoming login attempt for username='{}'", user.getUsername());
             // 1️⃣ Authentifier les identifiants
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
@@ -55,7 +58,10 @@ public class AuthController {
             return ResponseEntity.ok(response);
 
         } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            Map<String, Object> error = new HashMap<>();
+            error.put("errorCode", "INVALID_CREDENTIALS");
+            error.put("message", "Invalid username or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
     }
 }

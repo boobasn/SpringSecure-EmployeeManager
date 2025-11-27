@@ -1,0 +1,99 @@
+/* --- Styles de la Barre de Navigation (Navbar) --- */
+
+.navbar {
+    background-color:#ffffff; /* Fond blanc */
+    height: 60px; /* Hauteur standard */
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-end; /* Alignez tout à droite */
+    align-items: center;
+    /* Ombre subtile pour la faire ressortir du fond de la page */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
+    
+    /* Positionnement pour s'adapter au contenu principal */
+    /* REMARQUE: Si votre navbar est DANS le contenu principal, 
+       supprimez 'position: fixed;' et 'z-index'
+    */
+    /* position: fixed; 
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    width: calc(100% - 250px); /* Ajuster la largeur si la sidebar est fixe */
+}
+
+/* S'assurer que les icônes et le texte sont alignés sur la droite */
+.right {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espace entre les éléments */
+}
+
+/* Le conteneur .left dans votre HTML ne contient que l'icône 'menu', 
+   qui semble être cachée dans le design final ou sert de toggle. 
+   On peut l'aligner à gauche si elle est utilisée.
+*/
+.left {
+    display: none; /* Cache l'icône du menu si la sidebar est toujours visible */
+}
+
+/* Message de bienvenue (Bonjour Babou) */
+.welcome-message {
+    font-size: 1em;
+    color: #343a40;
+    font-weight: 500;
+}
+
+/* Icône de profil/avatar (account_circle) */
+.profile-icon {
+    font-size: 30px; 
+    color: #6c757d; /* Couleur discrète */
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.profile-icon:hover {
+    color: #007bff;
+}
+
+/* Bouton de déconnexion (Logout) */
+.logout-btn {
+    /* Style épuré et aligné */
+    background-color: transparent;
+    border: none;
+    color: #dc3545; /* Rouge pour l'action de déconnexion */
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #f8d7da; /* Rouge très pâle au survol */
+    color: #dc3545;
+}
+
+.logout-btn .material-icons {
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+/* --- Ajustement du Contenu Principal (Très important) --- */
+/* Pour éviter que le contenu ne soit caché par la barre de navigation */
+.dashboard-container {
+    padding-top: 20px; /* Ajoutez de l'espace en haut du conteneur du tableau de bord */
+    /* ... les autres styles du dashboard-container ... */
+}
+.material-icons{
+    height: 36px;
+    width: 36px;
+    padding: 6px;
+}
+.material-icons:hover{
+    background: #e2e8f0;
+    border-radius: 50%;
+    color:  #38bdf8;
+}

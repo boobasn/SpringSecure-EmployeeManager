@@ -1,0 +1,15 @@
+<header class="navbar">
+    <div class="left">
+        <span class="material-icons menu-icon" (click)="toggleSidebar.emit()">menu</span>
+    </div>
+
+    <div class="right">
+        <span class="welcome-message">Bonjour Babou</span>
+        
+        <img src="/profil.png" alt="Icône de profil" class="material-icons profile-icon">
+        
+        <button class="logout-btn" (click)="logout()">
+            <img src="/logout.png" alt="Icône de déconnexion" class="material-icons profile-icon"> 
+        </button>
+    </div>
+</header>

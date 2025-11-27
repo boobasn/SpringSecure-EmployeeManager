@@ -18,7 +18,9 @@ import com.enrtreprise.api.service.CostumUserDetailsService;
 import java.io.IOException;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
@@ -36,6 +38,13 @@ public class JwtFilter extends OncePerRequestFilter {
         String username = null;
 
         try {
+            // Skip JWT processing for public/auth routes — let SecurityConfig handle permitAll
+            String path = request.getServletPath();
+            if (path != null && path.startsWith("/auth")) {
+                log.debug("Skipping JWT processing for auth route: {}", path);
+                filterChain.doFilter(request, response);
+                return;
+            }
             // Vérifie que l’en-tête commence bien par "Bearer "
             if (header != null && header.startsWith("Bearer ")) {
                 token = header.substring(7); // Enlève "Bearer " pour ne garder que le token

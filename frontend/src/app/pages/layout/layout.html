@@ -1,0 +1,18 @@
+<div class="layout-container" [class.sidebar-collapsed]="collapsed">
+
+  <!-- ========== Sidebar ========== -->
+  <app-sidebar (toggle)="collapsed = !collapsed"></app-sidebar>
+
+  <!-- ========= Main Content ======= -->
+  <div class="content">
+    
+    <!-- Top Navbar -->
+    <app-navbar (toggleSidebar)="collapsed = !collapsed"></app-navbar>
+
+    <!-- Routed pages -->
+    <main class="page-container">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+</div>

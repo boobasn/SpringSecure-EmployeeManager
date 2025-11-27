@@ -1,0 +1,85 @@
+<div class="allbody">
+
+    <div class="dashboard-container">
+
+        <h1>Tableau de bord</h1>
+
+        <div class="stats-box">
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="titre-dashboard">Employés</h2>
+                    <img src="/employeeDahs.png" alt="Icône d'employé" class="card-icon">
+                </div>
+                <p>{{employees}}</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="titre-dashboard">Contrats</h2>
+                    <img src="/contratdash.png" alt="Icône de contrat" class="card-icon">
+                </div>
+                <p>{{contracts}}</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="titre-dashboard">Départements</h2>
+                    <img src="/departementDash.png" alt="Icône de département" class="card-icon">
+                </div>
+                <p>1</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="titre-dashboard">Congés en cours</h2>
+                    <img src="/congeDash.png" alt="Icône de congé" class="card-icon">
+                </div>
+                <p>{{leaves}}</p>
+            </div>
+
+        </div> <div class="main-content-area">
+            
+            <div class="row-charts">
+                <div class="chart-card">
+                    <h3>Évolution des Contrats (Annuel)</h3>
+                    <canvas id="contracts-chart" width="400" height="200"></canvas> 
+                </div>
+                
+                <div class="chart-card">
+                    <h3>Répartition des Employés par Département</h3>
+                    <canvas id="departments-chart" width="400" height="200"></canvas> 
+                </div>
+            </div>
+            
+            <div class="row-table">
+                <div class="table-card">
+                    <h3>Dernières Demandes de Congés</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employé</th>
+                                <th>Début</th>
+                                <th>Fin</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Alice Dupont</td>
+                                <td>01/08/2023</td>
+                                <td>07/08/2023</td>
+                                <td>En attente</td>
+                            </tr>
+                            <tr>
+                                <td>Bob Martin</td>
+                                <td>05/08/2023</td>
+                                <td>12/08/2023</td>
+                                <td>Approuvé</td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div> </div> </div>

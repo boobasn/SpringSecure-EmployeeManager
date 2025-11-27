@@ -1,0 +1,140 @@
+/* --- BASE & GÉNÉRAL --- */
+.sidebar {
+    width: 250px;
+    background: #0f172a; /* Fond très sombre et élégant (Slate) */
+    height: 100vh;
+    color: #fff;
+    padding: 20px 15px; /* Augmenter le padding pour plus d'espace */
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    transition: width .35s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transition plus douce */
+    border-right: 1px solid rgba(255,255,255,0.07);
+    overflow: hidden;
+    position: fixed;
+    z-index: 1001; /* Assurez-vous qu'il est au-dessus de tout */
+}
+
+/* --- COLLAPSE MODE --- */
+.sidebar.collapsed {
+    width: 80px; /* Légèrement plus large pour les icônes */
+}
+
+.sidebar.collapsed .logo-text,
+.sidebar.collapsed .menu a .text {
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    /* Rendre la transition du texte instantanée pour éviter le chevauchement */
+    transition: opacity 0.1s; 
+}
+
+/* Rotation de l'icône de bascule en mode réduit */
+.sidebar.collapsed .toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* --- LOGO --- */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    font-weight: 700; /* Plus gras */
+    padding: 8px;
+    margin-bottom: 10px; /* Séparer le logo du menu */
+}
+
+.logo-icon {
+    font-size: 32px !important;
+    color: #38bdf8; /* Couleur d'accentuation vive */
+}
+
+/* --- MENU LINKS --- */
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espacement légèrement réduit */
+}
+
+.menu a {
+    color: #e2e8f0;
+    text-decoration: none;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Plus d'espace entre l'icône et le texte */
+    border-radius: 8px;
+    transition: background .3s, transform .3s, color .3s;
+    font-size: 1.05em; /* Texte légèrement plus grand */
+}
+
+.menu a:hover {
+    background: rgba(56,189,248,0.15); /* Fond légèrement plus visible au survol */
+    color: #ffffff;
+    transform: translateX(4px); /* Mouvement subtil */
+}
+
+/* --- ÉLÉMENT ACTIF (Le plus important pour le look Pro) --- */
+.menu a.active {
+    background: #38bdf8;
+    color: #0f172a; /* Texte foncé sur fond clair */
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(56,189,248,0.4); /* Ombre plus visible et élégante */
+    transform: none; /* Pas de transformation sur l'élément actif */
+    position: relative;
+    /* Ajout d'une petite bordure latérale pour l'effet "pro" */
+    border-left: 4px solid #ffffff; 
+    padding-left: 11px; /* Ajuster le padding pour compenser la bordure */
+}
+
+/* Style de l'icône dans l'élément actif */
+.menu a.active .material-icons {
+    color: #0f172a; /* Icône foncée dans l'élément actif */
+}
+
+
+/* --- ICONES --- */
+.material-icons {
+    font-size: 22px;
+    color: #94a3b8; /* Icône légèrement grisée lorsqu'elle n'est pas active */
+    transition: color .3s;
+
+}
+
+.menu a:hover .material-icons {
+    color: #38bdf8; /* Couleur vive au survol */
+}
+
+.sidebar.collapsed .material-icons {
+    margin: auto;
+    width: 100%; /* S'assurer que l'icône prend toute la largeur disponible */
+}
+
+/* --- TOGGLE BUTTON --- */
+.toggle-btn {
+    margin-top: auto;
+    border: none;
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: .3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.toggle-icon {
+    font-size: 20px !important;
+    transition: transform 0.35s ease;
+}
+
+.toggle-btn:hover {
+    background: #38bdf8;
+    color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(56,189,248,0.5);
+}

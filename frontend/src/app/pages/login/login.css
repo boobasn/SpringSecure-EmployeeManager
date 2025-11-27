@@ -1,0 +1,213 @@
+/* Styles généraux du corps */
+.fullbody {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5; 
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+	margin: 0;
+    overflow: hidden;
+}
+
+/* Conteneur principal qui aligne l'illustration et le formulaire */
+.login-page-layout {
+
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 90%;
+    min-height: 550px;
+    overflow: hidden;
+}
+
+/* --- Section de l'Illustration (Gauche) --- */
+.illustration-section {
+    flex: 1; 
+    background-color: #e6f7ff; /* Fond bleu très clair */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.employee-image {
+    max-width: 80%; 
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.illustration-text h2 {
+    color: #0f172a;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+.illustration-text p {
+    color: #6c757d;
+    font-size: 1em;
+}
+
+/* --- Section du Formulaire (Droite) --- */
+.form-section {
+    flex: 1;
+    padding: 40px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ajustements de votre structure de formulaire existante pour le nouveau design */
+.parent {
+    width: 100%;
+}
+
+.login-wrap {
+    width: 100%;
+    max-width: 380px; /* Limiter la largeur du formulaire */
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* Onglets Sign In / Sign Up */
+.login-html .tab {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #b0b0b0;
+    cursor: pointer;
+    transition: color .5s;
+}
+
+.login-html .sign-in:checked ~ .tab:nth-child(2),
+.login-html .sign-up:checked ~ .tab:nth-child(1){
+    color: #333; /* Rendre l'onglet actif sombre */
+}
+
+/* Conteneurs de champ */
+.login-form .group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.login-form .label {
+    color: #6c757d;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Champs de saisie */
+.login-form .input {
+    width: 100%;
+    padding: 12px 18px;
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Coins arrondis comme dans l'image */
+    background: #f7f9fc;
+    color: #333;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: all .5s ease;
+}
+
+.login-form .input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    background: #ffffff;
+}
+
+/* Checkbox "Keep me Signed in" */
+.login-form .check:checked + label .icon {
+    background: #007bff;
+    border-color: #007bff;
+}
+
+.login-form .check + label .icon {
+    background: #f7f9fc;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+/* ... (Assurez-vous d'avoir le style pour .check + label .icon et :after si vous voulez l'effet checkbox) ... */
+
+
+/* Bouton de soumission (Sign In / Sign Up) */
+.login-form .button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #0f172a; /* Bouton bleu lumineux */
+    color: #ffffff;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4); /* Ombre pour l'effet "pop" */
+    transition: background-color .3s, transform .2s, box-shadow .3s;
+}
+
+.login-form .button:hover {
+    background-color:#38bdf8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.5);
+}
+
+/* Ligne HR et pied de page */
+.hr {
+    border-bottom: 1px solid #ddd;
+    margin: 30px 0;
+}
+
+.foot-lnk {
+    text-align: center;
+}
+.foot-lnk a, .foot-lnk label {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: color .3s;
+}
+.foot-lnk a:hover, .foot-lnk label:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Styles pour le message d'erreur Angular */
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+}
+
+/* --- Media Queries pour la Responsivité --- */
+@media (max-width: 900px) {
+    .login-page-layout {
+        flex-direction: column;
+        max-width: 500px;
+    }
+    .illustration-section {
+        padding: 40px 20px;
+        border-radius: 20px 20px 0 0;
+    }
+    .form-section {
+        padding: 30px;
+        border-radius: 0 0 20px 20px;
+    }
+}
+@media (max-width: 480px) {
+    .illustration-section {
+        /* On peut masquer l'illustration sur les très petits écrans */
+        display: none; 
+    }
+    .login-page-layout {
+        min-height: auto;
+        width: 95%;
+    }
+}

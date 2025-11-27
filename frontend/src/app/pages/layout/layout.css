@@ -1,0 +1,31 @@
+:root {
+  --primary: #4A77EA;
+  --dark-bg: #1F2937;
+  --light-bg: #FFFFFF;
+  --text-light: #F3F4F6;
+  --text-dark: #111827;
+}
+
+.layout-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background: var(--light-bg);
+}
+
+.sidebar-collapsed .sidebar {
+  width: 70px;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f6f7fb;
+}
+
+.page-container {
+  padding: 24px;
+  overflow-y: auto;
+  height: calc(100vh - 64px);
+}
