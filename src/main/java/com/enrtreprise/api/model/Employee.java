@@ -29,16 +29,16 @@ public class Employee {
     private LocalDate dateEmbauche;
     private double salaire;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departement_id")
     private Department departement;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contrat_id", referencedColumnName = "id")
     private Contrat contrat;
 
-    @ManyToOne
-    @JoinColumn(name = "poste_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "poste_id" )
     private Poste poste;
 
     @OneToMany(mappedBy = "employee")
@@ -46,7 +46,7 @@ public class Employee {
     private List<Leave> leaves;
 
     // ✅ Lien avec l'utilisateur
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }

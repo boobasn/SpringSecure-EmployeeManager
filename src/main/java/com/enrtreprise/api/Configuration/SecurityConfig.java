@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .requestMatchers("/auth/login").permitAll() // login  publics
                 .requestMatchers("/auth/register").permitAll()  // login  publics
                 .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // ⭐ important pour Angular
                 .anyRequest().authenticated()  // toutes les autres requêtes nécessitent un token valide
             )
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

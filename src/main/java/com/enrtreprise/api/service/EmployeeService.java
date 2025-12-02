@@ -136,6 +136,10 @@ public class EmployeeService {
         if (updatedEmployee.getEmail() != null) employee.setEmail(updatedEmployee.getEmail());
         return employeeRepository.save(employee);
     }
+    // reucperer le nombre total des employees
+    public long getTotalEmployees(){
+        return employeeRepository.count();
+    }
     
     
 }

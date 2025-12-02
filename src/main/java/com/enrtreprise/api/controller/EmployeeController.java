@@ -90,4 +90,14 @@ public class EmployeeController {
         Employee updated = employeeService.updateEmployee(id, EmployeeMapper.toEntity(dto));
         return ResponseEntity.ok(EmployeeMapper.toDTO(updated));
     }
+    
+    /**
+     * Obtenir le nombre total d'employés
+     */
+    @GetMapping("/count")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public ResponseEntity<Long> getTotalEmployees() {
+        long count = employeeService.getTotalEmployees();
+        return ResponseEntity.ok(count);
+    }
 }

@@ -6,6 +6,7 @@ import { EmployeeService } from '../../Services/employee';
   selector: 'app-dashboard',
   imports: [CommonModule],
   templateUrl: './dashboard.html',
+  standalone: true,
   styleUrl: './dashboard.css',
 })
 export class Dashboard implements OnInit {
@@ -16,10 +17,36 @@ export class Dashboard implements OnInit {
   constructor(private data: DataService, private employeeService: EmployeeService) {}
 
 
-  ngOnInit(): void {
-    this.employeeService.getEmployees().subscribe((e: any[]) => (this.employees = e?.length ?? 0));
-    this.data.getContracts().subscribe((c: any[]) => (this.contracts = c?.length ?? 0));
-    this.data.getLeaves().subscribe((l: any[]) => (this.leaves = l?.length ?? 0));
-  }
+ngOnInit(): void {
+  this.employeeService.getTotalEmployees().subscribe({
+    next: (count: number) => {
+      console.log('📌 Employees received:', count);
+      this.employees = count;
+    },
+    error: (err) => {
+      console.error('❌ Error fetching employees:', err);
+    }
+  });
+
+  this.data.getContracts().subscribe({
+    next: (c: any[]) => {
+      console.log('📌 Contracts received:', c);
+      this.contracts = c?.length ?? 0;
+    },
+    error: (err) => {
+      console.error('❌ Error fetching contracts:', err);
+    }
+  });
+
+  this.data.getLeaves().subscribe({
+    next: (l: any[]) => {
+      console.log('📌 Leaves received:', l);
+      this.leaves = l?.length ?? 0;
+    },
+    error: (err) => {
+      console.error('❌ Error fetching leaves:', err);
+    }
+  });
+}
 
 }

@@ -4,7 +4,8 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { Layout } from './pages/layout/layout';
 import { Logout } from './pages/logout/logout';
 import { Profile } from './pages/profile/profile';
-
+import { AuthGuard } from './Services/auth.guard';
+import {Employee } from './pages/employee/employee';
 export const routes: Routes = [
     {
         path: 'login',
@@ -20,6 +21,7 @@ export const routes: Routes = [
     {
         path: '',
         component: Layout,
+        canActivate: [AuthGuard],
         children: 
             [
                 {
@@ -29,6 +31,10 @@ export const routes: Routes = [
                 {
                     path: 'profil',
                     component: Profile
+                },
+                {
+                    path: 'employees',
+                    component: Employee
                 }
             ]
     },

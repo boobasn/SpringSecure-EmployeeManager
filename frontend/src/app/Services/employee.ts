@@ -30,5 +30,9 @@ export class EmployeeService {
   deleteEmployee(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+  // ➤ Récupérer le nombre total d'employés
+  getTotalEmployees(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/count`);
+  }
   
 }
