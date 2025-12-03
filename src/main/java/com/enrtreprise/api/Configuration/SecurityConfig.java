@@ -44,7 +44,11 @@ public class SecurityConfig {
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         // Permet d'afficher la console H2
-        http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
+        http.headers(headers -> headers.frameOptions(frame -> frame.disable()).contentSecurityPolicy(
+        csp -> csp.policyDirectives(
+            "default-src 'self'; connect-src 'self' http://localhost:4200"
+        )
+    ));
 
         return http.build();
     }

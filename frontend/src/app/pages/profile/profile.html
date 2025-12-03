@@ -1,15 +1,38 @@
-<div class="profile-wrap">
-  <header class="profile-header">
-    <h1>Mon profil</h1>
-    <p>Informations d'utilisateur et préférences.</p>
-  </header>
+<div class="profile" *ngIf="employee">
 
-  <section class="profile-card">
-    <div class="avatar">BS</div>
-    <div class="meta">
-      <h2>{{ username }}</h2>
-      <p class="muted">Rôle: Administrateur</p>
-      <button class="btn btn-logout" (click)="logout()">Déconnexion</button>
-    </div>
-  </section>
+  <img src="https://i.pravatar.cc/150" />
+
+  <h2>
+    {{ employee.firstName }} {{ employee.lastName }}
+  </h2>
+
+  <p class="poste">
+    {{ employee.poste?.titre }}
+  </p>
+
+  <div class="section">
+
+    <h3>Contact</h3>
+    <p>Email: {{ employee.email }}</p>
+    <p>Téléphone: {{ employee.telephone }}</p>
+
+  </div>
+
+  <div class="section">
+
+    <h3>Compte utilisateur</h3>
+    <p>Username: {{ employee.user?.username }}</p>
+    <p>Rôle: {{ employee.user?.role }}</p>
+
+  </div>
+
+  <div class="section">
+
+    <h3>Informations pro</h3>
+    <p>Salaire : {{ employee.salaire }} </p>
+    <p>Date embauche : {{ employee.dateEmbauche }}</p>
+    <p>Département : {{ employee.departement?.name }}</p>
+
+  </div>
+
 </div>

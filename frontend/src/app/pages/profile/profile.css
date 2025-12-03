@@ -1,7 +1,21 @@
-.profile-wrap{padding:24px}
-.profile-header h1{font-size:20px;margin-bottom:4px}
-.profile-card{display:flex;align-items:center;background:#111827;padding:16px;border-radius:8px;border:1px solid #374151}
-.profile-card .avatar{width:56px;height:56px;border-radius:8px;background:#1f2937;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;margin-right:12px}
-.profile-card .meta h2{margin:0 0 4px 0}
-.profile-card .meta .muted{color:#9ca3af;font-size:12px;margin-bottom:8px}
-.btn-logout{background:#ef4444;color:white;padding:8px 12px;border-radius:6px;border:none}
+.profile {
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+img {
+  border-radius: 50%;
+}
+
+.section {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.poste {
+  color: #666;
+}

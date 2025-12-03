@@ -1,25 +1,35 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { EmployeeService } from '../../Services/employee';
+import { Employee } from '../../model/employee';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../Services/auth';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'app-employee-profile',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
-export class Profile implements OnInit {
-  username = 'Utilisateur';
+export class EmployeeProfileComponent implements OnInit {
 
-  constructor(private auth: AuthService, private router: Router) {}
+  employee?: Employee;
+
+  constructor(
+    private route: ActivatedRoute,
+    private employeeService: EmployeeService
+  ) {}
 
   ngOnInit(): void {
-    // If you later add user profile in AuthService, populate it here.
+
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.employeeService
+        .getEmployeeById(id)
+        .subscribe(res => this.employee = res);
+    }
+
   }
 
-  logout() {
-    this.auth.logout();
-    this.router.navigate(['/logout']);
-  }
 }

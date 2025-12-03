@@ -1,12 +1,31 @@
+import { User } from './user';
+import { Department } from './departement';
+import { Poste } from './poste';
+import { Contrat } from './contrat';
+import { Leave } from './leave';
+
 export interface Employee {
-  id?: number;            // facultatif pour le create
-  nom: string;
-  prenom: string;
+
+  id?: string;
+
+  firstName: string;
+  lastName: string;
   email: string;
-  telephone?: string;
+  telephone: string;
+  salaire: number;
+
   dateNaissance?: string;
-  adresse?: string;
-  departement?: string;
-  poste?: string;
   dateEmbauche?: string;
+  sexe?: string;
+  adresse?: string;
+
+  // ✅ Relations JPA respectées
+  departement?: Department;
+  poste?: Poste;
+  contrat?: Contrat;
+
+  leaves?: Leave[];
+
+  // ✅ Lien utilisateur
+  user: User;
 }

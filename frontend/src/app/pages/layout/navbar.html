@@ -1,15 +1,27 @@
 <header class="navbar">
-    <div class="left">
-        <span class="material-icons menu-icon" (click)="toggleSidebar.emit()">menu</span>
+  <div class="nav-left">
+    <button class="menu-btn" (click)="toggle.emit()">
+      <span class="material-icons">menu</span>
+    </button>
+
+    <span class="brand">Ready Dashboard</span>
+  </div>
+
+  <div class="nav-center">
+    <input type="text" placeholder="Search..." />
+    <span class="material-icons search">search</span>
+  </div>
+
+  <div class="nav-right">
+    <span class="material-icons notif">notifications</span>
+
+    <div class="user">
+      <img src="/profil.png" />
+      <span>Babou</span>
     </div>
 
-    <div class="right">
-        <span class="welcome-message">Bonjour Babou</span>
-        
-        <img src="/profil.png" alt="Icône de profil" class="material-icons profile-icon">
-        
-        <button class="logout-btn" (click)="logout()">
-            <img src="/logout.png" alt="Icône de déconnexion" class="material-icons profile-icon"> 
-        </button>
-    </div>
+    <button class="logout-btn" (click)="logout()">
+      <span class="material-icons">logout</span>
+    </button>
+  </div>
 </header>

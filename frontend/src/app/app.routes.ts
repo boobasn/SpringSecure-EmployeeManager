@@ -3,47 +3,73 @@ import { Login } from './pages/login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Layout } from './pages/layout/layout';
 import { Logout } from './pages/logout/logout';
-import { Profile } from './pages/profile/profile';
+import { EmployeeProfileComponent } from './pages/profile/profile';
 import { AuthGuard } from './Services/auth.guard';
-import {Employee } from './pages/employee/employee';
+import { EmployeeComponent } from './pages/employee/employee';
+import { PayrollComponent } from './pages/payroll/payroll';
+
 export const routes: Routes = [
-    {
-        path: 'login',
-        component: Login
-    },
 
-    {
-        path: '',
-        redirectTo: 'login',
-        pathMatch: 'full'
-    },
+  // ========== PUBLIC ==========
+  {
+    path: 'login',
+    component: Login
+  },
 
-    {
-        path: '',
-        component: Layout,
-        canActivate: [AuthGuard],
-        children: 
-            [
-                {
-                    path: 'dashboard',
-                    component: Dashboard
-                },
-                {
-                    path: 'profil',
-                    component: Profile
-                },
-                {
-                    path: 'employees',
-                    component: Employee
-                }
-            ]
-    },
-    {
-        path: '**',
-        redirectTo: 'login'
-    },
-    {
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+
+  // ========== PRIVATE ==========
+  {
+    path: '',
+    component: Layout,
+    canActivate: [AuthGuard],
+    children: [
+
+      {
+        path: 'dashboard',
+        component: Dashboard
+      },
+
+      {
+        // ✅ profil connecté
+        path: 'profil',
+        component: EmployeeProfileComponent
+      },
+
+      {
+        // ✅ PROFIL D’UN EMPLOYÉ PAR ID
+        path: 'employees/:id',
+        component: EmployeeProfileComponent
+      },
+
+      {
+        // ✅ LISTE DES EMPLOYÉS
+        path: 'employees',
+        component: EmployeeComponent
+      },
+
+      {
+        path: 'payroll',
+        component: PayrollComponent
+      },
+
+      {
+        // ✅ LOGOUT doit être ICI
         path: 'logout',
         component: Logout
-    }
+      },
+
+    ]
+  },
+
+  // ⚠️ Wildcard TOUJOURS DERNIER
+  {
+    path: '**',
+    redirectTo: 'login'
+  }
+
 ];

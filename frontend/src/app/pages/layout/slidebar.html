@@ -1,45 +1,50 @@
-<aside class="sidebar" [class.collapsed]="isCollapsed">
-  
-  <div class="logo">
-    <img src="/work.png" class="material-icons" alt="icone dashboard">
-    <span class="logo-text"> RH GESTION</span>
+<aside class="sidebar" [class.open]="isOpen">
+
+  <div class="sidebar-header">
+    <span class="logo">RH</span>
   </div>
 
-  <nav class="menu">
+  <nav>
 
     <a routerLink="/dashboard" routerLinkActive="active">
-      <img src="/dashboard.png" class="material-icons" alt="icone dashboard">
-      <span class="text">Dashboard</span>
+      <span class="material-icons">dashboard</span>
+      <p>Tableau de bord</p>
     </a>
 
     <a routerLink="/employees" routerLinkActive="active">
-      <img src="/employees.png" class="material-icons" alt="icone employés">
-
-      <span class="text">Employés</span>
+      <span class="material-icons">groups</span>
+      <p>Employés</p>
     </a>
 
-    <a routerLink="/attendance" routerLinkActive="active">
-      <img src="/departement.png" class="material-icons" alt="icone départements">
-      <span class="text">Départements</span>
+    <a routerLink="/payroll" routerLinkActive="active">
+      <span class="material-icons">payments</span>
+      <p>Paiements</p>
     </a>
-    
+
+    <a routerLink="/departments" routerLinkActive="active">
+      <span class="material-icons">apartment</span>
+      <p>Départements</p>
+    </a>
+
     <a routerLink="/contracts" routerLinkActive="active">
-      <img src="/contrat.png" class="material-icons" alt="icone contrats">
-      <span class="text">Contrats</span>
+      <span class="material-icons">article</span>
+      <p>Contrats</p>
     </a>
-    <a routerLink="/conge" routerLinkActive="active">
-      <img src="/conge.png" class="material-icons" alt="icone contrats">
-      <span class="text">Congés</span>
+
+    <a routerLink="/leaves" routerLinkActive="active">
+      <span class="material-icons">time_to_leave</span>
+      <p>Congés</p>
     </a>
 
     <a routerLink="/settings" routerLinkActive="active">
-      <img src="/settings.png" class="material-icons" alt="icone paramètres">
-      <span class="text">Paramètres</span>
+      <span class="material-icons">settings</span>
+      <p>Paramètres</p>
     </a>
   </nav>
-
-  <button class="toggle-btn" (click)="onToggle()">
-    <img src="/left.png" class="material-icons toggle-icon" alt="icone bascule">
-  </button>
+      <button class="toggle-btn" (click)="toggle()">
+      <span class="material-icons">
+         {{ isOpen ? 'chevron_left' : 'chevron_right' }}
+      </span>
+    </button>
 
 </aside>

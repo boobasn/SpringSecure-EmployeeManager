@@ -1,18 +1,7 @@
-<div class="layout-container" [class.sidebar-collapsed]="collapsed">
+<app-navbar (toggle)="sidebar.toggle()"></app-navbar>
 
-  <!-- ========== Sidebar ========== -->
-  <app-sidebar (toggle)="collapsed = !collapsed"></app-sidebar>
+<app-sidebar #sidebar></app-sidebar>
 
-  <!-- ========= Main Content ======= -->
-  <div class="content">
-    
-    <!-- Top Navbar -->
-    <app-navbar (toggleSidebar)="collapsed = !collapsed"></app-navbar>
-
-    <!-- Routed pages -->
-    <main class="page-container">
-      <router-outlet></router-outlet>
-    </main>
-
-  </div>
+<div class="page">
+  <router-outlet></router-outlet>
 </div>

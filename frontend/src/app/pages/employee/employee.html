@@ -1,0 +1,32 @@
+<div class="cards">
+
+  <div class="card"
+       *ngFor="let emp of employees"
+       (click)="openProfile(emp.id)">
+
+    <div class="status">
+      <span class="active">Active</span>
+    </div>
+
+    <img src="https://i.pravatar.cc/100"
+         class="avatar">
+
+    <h3>
+      {{ emp.firstName }} {{ emp.lastName }}
+    </h3>
+
+    <p class="poste">
+      {{ emp.poste?.titre || 'Employé' }}
+    </p>
+
+    <div class="infos">
+      <p>📧 {{ emp.email }}</p>
+      <p>📞 {{ emp.telephone }}</p>
+    </div>
+
+    <p class="details">
+      Voir détails →
+    </p>
+  </div>
+
+</div>

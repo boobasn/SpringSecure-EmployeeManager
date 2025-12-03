@@ -1,140 +1,111 @@
-/* --- BASE & GÉNÉRAL --- */
-.sidebar {
-    width: 250px;
-    background: #0f172a; /* Fond très sombre et élégant (Slate) */
-    height: 100vh;
-    color: #fff;
-    padding: 20px 15px; /* Augmenter le padding pour plus d'espace */
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    transition: width .35s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transition plus douce */
-    border-right: 1px solid rgba(255,255,255,0.07);
-    overflow: hidden;
+.sidebar{
     position: fixed;
-    z-index: 1001; /* Assurez-vous qu'il est au-dessus de tout */
+    left: 0;
+    top: 0;
+    width: 70px;
+    height: 100vh;
+    background: #0D1B2A;
+    color: white;
+    transition: width .3s ease;
+    overflow: hidden;
+    z-index:1000;
 }
 
-/* --- COLLAPSE MODE --- */
-.sidebar.collapsed {
-    width: 80px; /* Légèrement plus large pour les icônes */
+/* 🟢 ouverte */
+.sidebar.open{
+    width: 240px;
 }
 
-.sidebar.collapsed .logo-text,
-.sidebar.collapsed .menu a .text {
-    opacity: 0;
-    pointer-events: none;
-    width: 0;
-    /* Rendre la transition du texte instantanée pour éviter le chevauchement */
-    transition: opacity 0.1s; 
+.sidebar-header{
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    border-bottom:1px solid rgba(255,255,255,.1);
 }
 
-/* Rotation de l'icône de bascule en mode réduit */
-.sidebar.collapsed .toggle-icon {
-    transform: rotate(180deg);
+.logo{
+    font-size:18px;
 }
 
-/* --- LOGO --- */
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 24px;
-    font-weight: 700; /* Plus gras */
-    padding: 8px;
-    margin-bottom: 10px; /* Séparer le logo du menu */
+nav{
+    display:flex;
+    flex-direction:column;
 }
 
-.logo-icon {
-    font-size: 32px !important;
-    color: #38bdf8; /* Couleur d'accentuation vive */
+/* menu items */
+nav a{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:15px 18px;
+    color:#ddd;
+    text-decoration:none;
+    white-space: nowrap;
+    transition:.2s;
 }
 
-/* --- MENU LINKS --- */
-.menu {
-    display: flex;
-    flex-direction: column;
-    gap: 8px; /* Espacement légèrement réduit */
+nav a:hover{
+    background:#1B263B;
 }
 
-.menu a {
-    color: #e2e8f0;
-    text-decoration: none;
-    padding: 12px 15px;
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Plus d'espace entre l'icône et le texte */
-    border-radius: 8px;
-    transition: background .3s, transform .3s, color .3s;
-    font-size: 1.05em; /* Texte légèrement plus grand */
+nav a.active{
+    background:#415a77;
+    color:#fff;
 }
 
-.menu a:hover {
-    background: rgba(56,189,248,0.15); /* Fond légèrement plus visible au survol */
-    color: #ffffff;
-    transform: translateX(4px); /* Mouvement subtil */
+.material-icons{
+    font-size:22px;
+    min-width:25px;
 }
 
-/* --- ÉLÉMENT ACTIF (Le plus important pour le look Pro) --- */
-.menu a.active {
-    background: #38bdf8;
-    color: #0f172a; /* Texte foncé sur fond clair */
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(56,189,248,0.4); /* Ombre plus visible et élégante */
-    transform: none; /* Pas de transformation sur l'élément actif */
-    position: relative;
-    /* Ajout d'une petite bordure latérale pour l'effet "pro" */
-    border-left: 4px solid #ffffff; 
-    padding-left: 11px; /* Ajuster le padding pour compenser la bordure */
+nav a p{
+    opacity:0;
+    transform:translateX(-10px);
+    transition:.2s;
 }
 
-/* Style de l'icône dans l'élément actif */
-.menu a.active .material-icons {
-    color: #0f172a; /* Icône foncée dans l'élément actif */
+/* textes visibles quand ouvert */
+.sidebar.open p{
+    opacity:1;
+    transform:translateX(0);
 }
 
-
-/* --- ICONES --- */
-.material-icons {
-    font-size: 22px;
-    color: #94a3b8; /* Icône légèrement grisée lorsqu'elle n'est pas active */
-    transition: color .3s;
-
-}
-
-.menu a:hover .material-icons {
-    color: #38bdf8; /* Couleur vive au survol */
-}
-
-.sidebar.collapsed .material-icons {
-    margin: auto;
-    width: 100%; /* S'assurer que l'icône prend toute la largeur disponible */
-}
-
-/* --- TOGGLE BUTTON --- */
 .toggle-btn {
-    margin-top: auto;
-    border: none;
-    background: #1e293b;
-    color: #f8fafc;
-    padding: 8px;
-    cursor: pointer;
-    border-radius: 8px;
-    font-size: 18px;
-    transition: .3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    position: absolute;
+    bottom: 30px;
+    right: -5px;
+    
+    background: #415a77;
+    border-radius: 50%;
+    border:none;
+    width:30px;
+    height:30px;
 
-.toggle-icon {
-    font-size: 20px !important;
-    transition: transform 0.35s ease;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+    color:white;
+    box-shadow:0 4px 10px rgba(0,0,0,.2);
 }
 
 .toggle-btn:hover {
-    background: #38bdf8;
-    color: #000;
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(56,189,248,0.5);
+    background:#778da9;
 }
+
+.toggle-btn span {
+    font-size:20px;
+}
+
+@media (max-width: 768px){
+    .sidebar{
+        width:0;
+    }
+    .sidebar.open{
+        width:220px;
+    }
+}
+

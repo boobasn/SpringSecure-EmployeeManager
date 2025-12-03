@@ -18,7 +18,7 @@ export class Dashboard implements OnInit {
 
 
 ngOnInit(): void {
-  this.employeeService.getTotalEmployees().subscribe({
+  this.employeeService.getCount().subscribe({
     next: (count: number) => {
       console.log('📌 Employees received:', count);
       this.employees = count;

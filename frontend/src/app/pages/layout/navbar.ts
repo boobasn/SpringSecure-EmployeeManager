@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-  @Output() toggleSidebar = new EventEmitter<void>();
+  @Output() toggle = new EventEmitter();
+
 
   constructor(private auth: AuthService, private router: Router) {}
 

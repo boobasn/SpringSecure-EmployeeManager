@@ -1,0 +1,128 @@
+<div class="payroll-container">
+  <h1>Gestion de la Paie</h1>
+
+  <!-- 🔎 RECHERCHE & FILTRES -->
+  <div class="search-section">
+
+    <input
+      type="text"
+      placeholder="ID Employé"
+      [(ngModel)]="employeeId"
+    />
+
+    <button (click)="searchByEmployee()">
+      🔍 Rechercher
+    </button>
+
+    <select [(ngModel)]="selectedMonth">
+      <option [ngValue]="null">Mois</option>
+      <option *ngFor="let m of months" [value]="m">
+        {{ m }}
+      </option>
+    </select>
+
+    <select [(ngModel)]="selectedYear">
+      <option [ngValue]="null">Année</option>
+      <option *ngFor="let y of years" [value]="y">
+        {{ y }}
+      </option>
+    </select>
+
+    <button (click)="searchByMonth()">📅 Filtrer</button>
+
+    <button (click)="generateBatch()">
+      ⚙ Générer Batch
+    </button>
+    
+    <button (click)="loadPayrolls()">
+      🔄 Réinitialiser
+    </button>
+
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="card">
+      <h2>{{ payrolls.length }}</h2>
+      <p>Total Paies</p>
+    </div>
+
+    <div class="card green">
+      <h2>{{ paidCount }}</h2>
+      <p>Payées</p>
+    </div>
+
+    <div class="card orange">
+      <h2>{{ generatedCount }}</h2>
+      <p>En attente</p>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <table>
+    <thead>
+      <tr>
+        <th>Employé</th>
+        <th>Mois</th>
+        <th>Base</th>
+        <th>Net</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of payrolls">
+        <td>{{ p.employeeFirstName }}</td>
+        <td>{{ p.month }}/{{ p.year }}</td>
+        <td>{{ p.baseSalary }} F</td>
+        <td>{{ p.netSalary }} F</td>
+
+        <td>
+          <span
+            class="badge"
+            [class.paid]="p.status === 'PAID'"
+            [class.generated]="p.status === 'GENERATED'">
+            {{ p.status }}
+          </span>
+        </td>
+
+        <td class="actions">
+          <button (click)="viewDetails(p)">👁</button>
+          <button (click)="download(p)">📄</button>
+
+          <button
+            class="pay"
+            *ngIf="p.status !== 'PAID'"
+            (click)="markPaid(p)">
+            ✔ Payer
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- MODAL -->
+  <div class="modal" *ngIf="selectedPayroll as p">
+    <div class="modal-content">
+      <h2>Détails Paie</h2>
+
+      <p><strong>Employé :</strong> {{ p.employeeFirstName }}</p>
+      <p><strong>Mois :</strong> {{ p.month }}/{{ p.year }}</p>
+
+      <hr />
+
+      <p>Salaire Base : {{ p.baseSalary }} F</p>
+      <p>Bonus : {{ p.bonuses }} F</p>
+      <p>Indemnités : {{ p.allowances }} F</p>
+      <p>Déductions : {{ p.deductions }} F</p>
+
+      <h3>NET À PAYER : {{ p.netSalary }} F</h3>
+
+      <button class="close" (click)="selectedPayroll = null">
+        Fermer
+      </button>
+    </div>
+  </div>
+
+</div>

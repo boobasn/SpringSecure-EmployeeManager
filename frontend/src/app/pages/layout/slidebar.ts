@@ -8,13 +8,10 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   styleUrl: './slidebar.css',
 })
 export class Slidebar {
-  @Output() toggle = new EventEmitter<void>();
+  isOpen = false;
 
-  isCollapsed: boolean = false;
-
-  onToggle(): void {
-    this.toggle.emit();
-    this.isCollapsed = !this.isCollapsed;
+  toggle(){
+    this.isOpen = !this.isOpen;
   }
 
 }

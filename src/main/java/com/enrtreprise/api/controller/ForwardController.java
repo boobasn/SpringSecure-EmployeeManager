@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ForwardController {
     @RequestMapping(value = "/{path:[^\\.]*}")
     public String forward() {
+        // Renvoie toutes les routes vers Angular
         return "forward:/index.html";
     }
 }
