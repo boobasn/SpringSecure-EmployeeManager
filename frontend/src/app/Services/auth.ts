@@ -11,34 +11,45 @@ export class AuthService {
 
   private isUserLoggedInSubject = new BehaviorSubject<boolean>(false);
 
-    constructor(private http: HttpClient) {
-    if (typeof window !== 'undefined' && sessionStorage.getItem('auth_token')) {
-        this.isUserLoggedInSubject.next(true);
+  constructor(private http: HttpClient) {
+    if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+      this.isUserLoggedInSubject.next(true);
     }
   }
 
   login(userName: string, password: string): Observable<{ success: boolean; message?: string }> {
-    return this.http.post<{ token?: string; message?: string }>(`${API_BASE}/auth/login`, { username: userName, password })
-      .pipe(
-        map(res => {
-          const success = !!res?.token;
-          if (success) {
-            console.log("TOKEN RECU:", res.token);
-            sessionStorage.setItem('auth_token', res.token!);
-            localStorage.setItem('token', res.token!); // ⭐ stockage ici
-            this.isUserLoggedInSubject.next(true);
-          }
-          return { success, message: success ? undefined : res?.message || 'Login failed' };
-        }),
-        catchError(err => {
-          this.isUserLoggedInSubject.next(false);
-          return of({ success: false, message: err.error?.message ?? 'Erreur de connexion' });
-        })
-      );
+    return this.http.post<{ token?: string; message?: string; role?: string; userId?: string }>(
+      `${API_BASE}/auth/login`,
+      { username: userName, password }
+    ).pipe(
+      map(res => {
+
+        const success = !!res?.token;
+
+        if (success) {
+          console.log('TOKEN REÇU:', res.token);
+          console.log('ROLE:', res.role);
+          console.log('USER_ID:', res.userId);
+
+          localStorage.setItem('token', res.token!);
+          localStorage.setItem('role',  res.role!);
+          localStorage.setItem('userId', res.userId!);
+
+          this.isUserLoggedInSubject.next(true);
+        }
+
+        return { success, message: success ? undefined : res?.message || 'Login failed' };
+
+      }),
+      catchError(err => {
+        this.isUserLoggedInSubject.next(false);
+        return of({ success: false, message: err.error?.message ?? 'Erreur de connexion' });
+      })
+    );
   }
 
   logout(): void {
-    sessionStorage.removeItem('auth_token');
+    localStorage.clear();
     this.isUserLoggedInSubject.next(false);
   }
 
@@ -46,11 +57,36 @@ export class AuthService {
     return this.isUserLoggedInSubject.asObservable();
   }
 
-isAuthenticated(): boolean {
-  if (typeof window === 'undefined') return false;
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    console.log('AuthService - token:', token);
+    return !!token;
+  }
 
-  const token =localStorage.getItem('token'); // ⭐ recommandé
-  console.log('AuthService - isAuthenticated - token:', token);
-  return !!token;
-}
+  // ✅ GETTERS PRO
+
+  getRole(): string {
+    return localStorage.getItem('role') || '';
+  }
+
+  getUserId(): string {
+    return localStorage.getItem('userId') || '';
+  }
+
+  isAdmin(): boolean {
+    return this.getRole() === 'ADMIN' || this.getRole() === 'RH';
+  }
+
+  isFinance(): boolean {
+    return this.getRole() === 'FINANCE';
+  }
+
+  isEmploye(): boolean {
+    return this.getRole() === 'EMPLOYE';
+  }
+  hasRole(...roles: string[]): boolean {
+    const currentRole = this.getRole();
+    return roles.includes(currentRole);
+  }
+
 }

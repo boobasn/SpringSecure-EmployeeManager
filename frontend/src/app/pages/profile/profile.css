@@ -1,21 +1,195 @@
-.profile {
-  max-width: 600px;
-  margin: auto;
+/* =================================================
+  PROFILE LAYOUT
+================================================== */
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 24px;
+  padding: 22px;
+}
+
+
+/* =================================================
+  LEFT CARD
+================================================== */
+
+.profile-card {
   background: #fff;
-  padding: 30px;
-  border-radius: 15px;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.06);
   text-align: center;
 }
 
-img {
+.avatar-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar-wrap img {
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
 }
 
-.section {
-  text-align: left;
-  margin-top: 20px;
+.edit-avatar {
+  position: absolute;
+  right: -6px;
+  bottom: 6px;
+  background: #3f51b5;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  padding: 6px 8px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
-.poste {
+.profile-card h2 {
+  margin: 12px 0 4px;
+}
+
+.role {
+  color: #3f51b5;
+  font-size: 14px;
+}
+
+
+/* =================================================
+  BASIC INFO
+================================================== */
+
+.basic-info {
+  margin-top: 20px;
+  text-align: left;
+  display: grid;
+  gap: 12px;
+}
+
+.basic-info span {
+  color: gray;
+  font-size: 12px;
+}
+
+.basic-info p {
+  margin: 1px 0;
+  font-weight: 600;
+}
+
+
+/* =================================================
+  TABS
+================================================== */
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  background: #fff;
+  padding: 6px;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.04);
+}
+
+.tabs button {
+  background: none;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 10px;
+  cursor: pointer;
   color: #666;
+  font-weight: 500;
+}
+
+.tabs button.active {
+  background: linear-gradient(to right,#5f6af2,#7b68ee);
+  color: white;
+}
+
+
+/* =================================================
+  SECTIONS
+================================================== */
+
+.profile-right {
+  display: grid;
+  gap: 20px;
+}
+
+.section-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.05);
+}
+
+.section-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-card h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.edit-btn {
+  background: #f1f4fd;
+  border-radius: 8px;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+
+/* =================================================
+  INFO GRID
+================================================== */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+  gap: 14px;
+}
+
+.info-grid span {
+  font-size: 12px;
+  color: gray;
+}
+
+.info-grid p {
+  margin: 2px 0;
+  font-weight: 700;
+}
+
+
+/* =================================================
+  BADGE
+================================================== */
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 50px;
+  width: fit-content;
+  font-size: 13px;
+}
+
+.badge.green {
+  background: #20c997;
+  color: white;
+}
+
+
+/* =================================================
+  RESPONSIVE
+================================================== */
+
+@media(max-width:900px){
+
+  .profile-layout{
+    grid-template-columns: 1fr;
+  }
+
 }

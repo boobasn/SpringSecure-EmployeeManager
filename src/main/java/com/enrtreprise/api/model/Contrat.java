@@ -17,11 +17,13 @@ import java.lang.annotation.ElementType;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Data
 @Entity
 @Table(name = "contrats")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Contrat {
     public enum TypeContrat {
     CDI,

@@ -10,19 +10,12 @@ import { PayrollComponent } from './pages/payroll/payroll';
 
 export const routes: Routes = [
 
-  // ========== PUBLIC ==========
-  {
-    path: 'login',
-    component: Login
-  },
+  // ===== PUBLIC =====
+  { path: 'login', component: Login },
 
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
 
-  // ========== PRIVATE ==========
+  // ===== PRIVE =====
   {
     path: '',
     component: Layout,
@@ -31,45 +24,38 @@ export const routes: Routes = [
 
       {
         path: 'dashboard',
-        component: Dashboard
+        component: Dashboard,
+        data: { roles: ['ADMIN','FINANCE'] }
       },
 
       {
-        // ✅ profil connecté
         path: 'profil',
-        component: EmployeeProfileComponent
+        component: EmployeeProfileComponent,
+        data: { roles: ['EMPLOYE'] }
       },
 
-      {
-        // ✅ PROFIL D’UN EMPLOYÉ PAR ID
-        path: 'employees/:id',
-        component: EmployeeProfileComponent
-      },
 
       {
-        // ✅ LISTE DES EMPLOYÉS
         path: 'employees',
-        component: EmployeeComponent
+        component: EmployeeComponent,
+        data: { roles: ['ADMIN','RH'] }
       },
 
       {
         path: 'payroll',
-        component: PayrollComponent
+        component: PayrollComponent,
+        data: { roles: ['FINANCE','ADMIN'] }
       },
 
       {
-        // ✅ LOGOUT doit être ICI
         path: 'logout',
         component: Logout
       },
-
     ]
   },
 
-  // ⚠️ Wildcard TOUJOURS DERNIER
-  {
-    path: '**',
-    redirectTo: 'login'
-  }
+  // ===== FALLBACK =====
+  { path: '**', redirectTo: 'login' }
 
 ];
+

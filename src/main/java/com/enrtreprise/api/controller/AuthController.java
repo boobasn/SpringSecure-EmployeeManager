@@ -4,6 +4,8 @@ import com.enrtreprise.api.Configuration.JwtUtils;
 import com.enrtreprise.api.model.User;
 import com.enrtreprise.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import  com.enrtreprise.api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -21,7 +25,8 @@ import java.util.Map;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-
+    @Autowired
+    private UserService userService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -48,12 +53,14 @@ public class AuthController {
 
             // 2️⃣ Générer un JWT
             String token = jwtUtils.generateJwtToken(user.getUsername());
-
+            User userLogin = userService.getUserByUsername(user.getUsername());
             // 3️⃣ Retourner la réponse avec token + type
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
             response.put("type", "Bearer");
             response.put("username", user.getUsername());
+            response.put("role", userLogin.getRole());
+            response.put("userId", userLogin.getId());
 
             return ResponseEntity.ok(response);
 

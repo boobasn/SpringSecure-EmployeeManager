@@ -13,6 +13,7 @@ public interface EmployeeRepository extends CrudRepository<Employee, String> {
     @Query(value ="SELECT * FROM employees WHERE first_name = :first_name  AND last_name = :last_name", nativeQuery = true)
     Employee findByFirstname(@Param("first_name") String first_name , @Param("last_name") String last_name);
 
+    Employee findByUser_Id(String userId);
     boolean existsByEmail(String email);
 
 

@@ -14,22 +14,36 @@ import { CommonModule } from '@angular/common';
 export class EmployeeProfileComponent implements OnInit {
 
   employee?: Employee;
+  activeTab: string = 'personal';
+
+
 
   constructor(
     private route: ActivatedRoute,
     private employeeService: EmployeeService
   ) {}
+  setTab(tab: string) {
+    this.activeTab = tab;
+  }
+ngOnInit(): void {
+  this.route.paramMap.subscribe(params => {
 
-  ngOnInit(): void {
+    let id = params.get('id');
 
-    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      id = localStorage.getItem('userId');
+    }
 
     if (id) {
       this.employeeService
-        .getEmployeeById(id)
-        .subscribe(res => this.employee = res);
+        .getEmployeeByUserId(id)
+        .subscribe({
+          next: res => this.employee = res,
+          error: err => console.error('Erreur chargement profil:', err)
+        });
     }
+  });
+}
 
-  }
 
 }

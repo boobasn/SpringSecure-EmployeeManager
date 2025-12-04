@@ -37,6 +37,17 @@ public class EmployeeService {
              throw e;
         }
     }
+
+    // get employee by UserID
+    public Employee getEmployeeByUserId(String userId) {
+        try{
+        return employeeRepository.findByUser_Id(userId);
+        }catch ( ResourceNotFoundException e){
+            throw  e;
+        }catch (Exception e){
+             throw e;
+        }
+    }
     public Employee getEmployeeByName(String firstname, String lastname) {
         try {
             Employee employee = employeeRepository.findByFirstname(firstname, lastname);

@@ -1,8 +1,41 @@
+<div class="topbar">
+
+  <div class="left-tools">
+    <input
+      type="text"
+      class="search"
+      placeholder="Search employee..."
+      [(ngModel)]="search" />
+
+    <select>
+      <option>Type</option>
+    </select>
+
+    <select>
+      <option>Status</option>
+    </select>
+
+    <select>
+      <option>Role</option>
+    </select>
+
+    <button class="filter-btn">
+      Advanced Filter
+    </button>
+  </div>
+
+  <button class="add-btn" (click)="openAddModal()">
+    + Add Employee
+  </button>
+
+</div>
+
+
 <div class="cards">
 
   <div class="card"
        *ngFor="let emp of employees"
-       (click)="openProfile(emp.id)">
+       (click)="openProfile(emp)">
 
     <div class="status">
       <span class="active">Active</span>
@@ -30,3 +63,198 @@
   </div>
 
 </div>
+
+
+<!-- ===============================
+   EMPLOYEE DETAIL OVERLAY
+=================================-->
+<div class="detail-bg" *ngIf="selectedEmployee as emp">
+
+  <div class="detail-card">
+
+    <!-- HEADER -->
+    <div class="detail-header">
+
+      <div class="avatar-wrap">
+        <img src="https://i.pravatar.cc/150">
+        <h2>
+          {{ selectedEmployee.firstName }}
+          {{ selectedEmployee.lastName }}
+        </h2>
+        <p>{{ selectedEmployee.poste?.titre || 'Employé' }}</p>
+      </div>
+
+      <button class="close" (click)="closeDetails()">✖</button>
+
+    </div>
+
+    <!-- INFOS GRID -->
+    <div class="detail-grid">
+
+      <div>
+        <label>Email</label>
+        <p>{{ selectedEmployee.email }}</p>
+      </div>
+
+      <div>
+        <label>Téléphone</label>
+        <p>{{ selectedEmployee.telephone }}</p>
+      </div>
+
+      <div>
+        <label>Salaire</label>
+        <p>{{ selectedEmployee.salaire || 0 }} FCFA</p>
+      </div>
+
+      <div>
+        <label>Date embauche</label>
+        <p>{{ selectedEmployee.dateEmbauche }}</p>
+      </div>
+
+      <div>
+        <label>Sexe</label>
+        <p>{{ selectedEmployee.sexe }}</p>
+      </div>
+
+      <div>
+        <label>Adresse</label>
+        <p>{{ selectedEmployee.adresse }}</p>
+      </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="detail-actions">
+
+      <button class="edit" (click)="editEmployee()">
+        ✏ Modifier
+      </button>
+
+      <button class="delete" (click)="deleteEmployee()">
+        🗑 Supprimer
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+<div class="modal-bg" *ngIf="showModal">
+
+  <div class="modal">
+
+    <h2>Ajouter un employé</h2>
+
+    <!-- STEP INDICATOR -->
+    <div class="steps">
+      <div [class.active]="step === 1">1. Identité</div>
+      <div [class.active]="step === 2">2. Pro</div>
+      <div [class.active]="step === 3">3. Compte</div>
+    </div>
+
+
+    <!-- ✅ STEP 1 : IDENTITE -->
+    <div *ngIf="step === 1">
+
+      <input type="text" [(ngModel)]="newEmployee.firstName" placeholder="Prénom">
+      <input type="text" [(ngModel)]="newEmployee.lastName" placeholder="Nom">
+
+      <input type="email" [(ngModel)]="newEmployee.email" placeholder="Email">
+      <input type="tel" [(ngModel)]="newEmployee.telephone" placeholder="Téléphone">
+
+      <input type="text" [(ngModel)]="newEmployee.adresse" placeholder="Adresse">
+
+      <select [(ngModel)]="newEmployee.sexe">
+        <option value="">Sexe</option>
+        <option value="Homme">Homme</option>
+        <option value="Femme">Femme</option>
+      </select>
+
+      <label>Date de naissance</label>
+      <input type="date" [(ngModel)]="newEmployee.dateNaissance">
+
+    </div>
+
+
+    <!-- ✅ STEP 2 : PROFESSIONNEL -->
+    <div *ngIf="step === 2">
+
+      <label>Date d’embauche</label>
+      <input type="date" [(ngModel)]="newEmployee.dateEmbauche">
+
+      <input type="number" [(ngModel)]="newEmployee.salaire" placeholder="Salaire">
+
+      <!-- BONUS futur -->
+      <!--
+      <select [(ngModel)]="newEmployee.poste.id">
+        ...
+      </select>
+
+      <select [(ngModel)]="newEmployee.departement.id">
+        ...
+      </select>
+      -->
+
+    </div>
+
+
+    <!-- ✅ STEP 3 : USER -->
+    <div *ngIf="step === 3">
+
+      <input
+        type="text"
+        [(ngModel)]="newEmployee.user.username"
+        placeholder="Login">
+
+      <input
+        type="password"
+        [(ngModel)]="newEmployee.user.password"
+        placeholder="Mot de passe">
+
+      <select [(ngModel)]="newEmployee.user.role">
+        <option value="EMPLOYE">EMPLOYE</option>
+        <option value="RH">RH</option>
+        <option value="ADMIN">ADMIN</option>
+      </select>
+
+    </div>
+
+
+    <!-- ✅ ACTIONS -->
+    <div class="modal-actions">
+
+      <button *ngIf="step > 1"
+              class="cancel"
+              (click)="prevStep()">
+        ◀ Précédent
+      </button>
+
+      <button *ngIf="step < 3"
+              class="save"
+              (click)="nextStep()">
+        Suivant ▶
+      </button>
+
+      <button *ngIf="step === 3"
+              class="save"
+              (click)="saveEmployee()">
+        💾 Enregistrer
+      </button>
+
+      <button class="cancel"
+              (click)="closeModal()">
+        ❌ Annuler
+      </button>
+
+    </div>
+
+
+  </div>
+
+</div>
+

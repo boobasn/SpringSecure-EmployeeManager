@@ -6,27 +6,37 @@
 
   <nav>
 
-    <a routerLink="/dashboard" routerLinkActive="active">
+    <a  *ngIf="auth.hasRole('ADMIN','FINANCE')"
+     routerLink="/dashboard" routerLinkActive="active">
       <span class="material-icons">dashboard</span>
       <p>Tableau de bord</p>
     </a>
 
-    <a routerLink="/employees" routerLinkActive="active">
+    <a *ngIf="auth.hasRole('ADMIN','RH')"
+     routerLink="/employees" routerLinkActive="active">
       <span class="material-icons">groups</span>
       <p>Employés</p>
     </a>
 
-    <a routerLink="/payroll" routerLinkActive="active">
+    <a  *ngIf="auth.hasRole('ADMIN','FINANCE')"
+    routerLink="/payroll" routerLinkActive="active">
       <span class="material-icons">payments</span>
       <p>Paiements</p>
     </a>
-
-    <a routerLink="/departments" routerLinkActive="active">
+      <a *ngIf="auth.isEmploye()"
+       routerLink="/profil"
+       routerLinkActive="active">
+      <span class="material-icons">person</span>
+      <p>Mon Profil</p>
+    </a>
+    <a  *ngIf="auth.hasRole('ADMIN','RH')"
+    routerLink="/departments" routerLinkActive="active">
       <span class="material-icons">apartment</span>
       <p>Départements</p>
     </a>
 
-    <a routerLink="/contracts" routerLinkActive="active">
+    <a *ngIf="auth.hasRole('ADMIN','RH')"
+     routerLink="/contracts" routerLinkActive="active">
       <span class="material-icons">article</span>
       <p>Contrats</p>
     </a>

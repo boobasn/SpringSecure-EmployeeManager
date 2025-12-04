@@ -21,6 +21,9 @@ export class EmployeeService {
   getEmployeeById(id: string): Observable<Employee> {
     return this.http.get<Employee>(`${this.apiUrl}/${id}`);
   }
+  getEmployeeByUserId(id: string): Observable<Employee> {
+    return this.http.get<Employee>(`${this.apiUrl}/user/${id}`);
+  }
 
   // Ajouter
   addEmployee(employee: Employee): Observable<Employee> {

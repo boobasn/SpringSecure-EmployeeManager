@@ -58,6 +58,16 @@ public class EmployeeController {
         return ResponseEntity.ok(EmployeeMapper.toDTO(employee));
     }
 
+        /**
+     * Obtenir un employé par  UserID
+     */
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER') or @securityService.isSelf(#userId)")
+    public ResponseEntity<EmployeeDTO> employeeByUserId(@PathVariable String userId) {
+        Employee employee = employeeService.getEmployeeByUserId(userId);
+        return ResponseEntity.ok(EmployeeMapper.toDTO(employee));
+    }
+
     /**
      * Rechercher un employé par nom
      */
