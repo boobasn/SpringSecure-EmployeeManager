@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -33,5 +34,6 @@ public class Poste {
     private String description;
 
     @OneToMany(mappedBy = "poste")
+    @JsonIgnore
     private List<Employee> employes;
 }

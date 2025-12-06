@@ -3,6 +3,7 @@ package com.enrtreprise.api.mapper;
 import com.enrtreprise.api.dto.EmployeeDTO;
 import com.enrtreprise.api.model.Employee;
 import com.enrtreprise.api.model.Poste;
+import com.enrtreprise.api.model.Department;
 
 public class EmployeeMapper {
 
@@ -13,7 +14,10 @@ public class EmployeeMapper {
         dto.setLastName(employee.getLastName());
         dto.setEmail(employee.getEmail());
         dto.setTelephone(employee.getTelephone());
-        dto.setPoste(employee.getPoste() != null ? employee.getPoste().toString() : null);
+        dto.setMatricule(employee.getMatricule());
+        dto.setSalaire(employee.getSalaire());
+        if (employee.getPoste() != null) dto.setPoste(employee.getPoste());
+        if (employee.getDepartement() != null) dto.setDepartement(employee.getDepartement());
         dto.setDateEmbauche(employee.getDateEmbauche());
         dto.setSexe(employee.getSexe());
         dto.setAdresse(employee.getAdresse());
@@ -28,13 +32,16 @@ public class EmployeeMapper {
         employee.setFirstName(dto.getFirstName());
         employee.setLastName(dto.getLastName());
         employee.setEmail(dto.getEmail());
+        employee.setSalaire(dto.getSalaire());
         employee.setTelephone(dto.getTelephone());
-        employee.setPoste(dto.getPoste() != null ? Poste.valueOf(dto.getPoste()) : null);
         employee.setDateEmbauche(dto.getDateEmbauche());
         employee.setSexe(dto.getSexe());
+        employee.setMatricule(dto.getMatricule());
         employee.setAdresse(dto.getAdresse());
         // user et manager seront reliés dans le service
         if (dto.getUser() != null) employee.setUser(dto.getUser());
+        if (dto.getPoste() != null) employee.setPoste(dto.getPoste());
+        if (dto.getDepartement()!= null) employee.setDepartement(dto.getDepartement());
         return employee;
     }
 }

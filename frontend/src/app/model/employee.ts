@@ -13,7 +13,7 @@ export interface Employee {
   email: string;
   telephone: string;
   salaire: number;
-
+  matricule: string;
   dateNaissance?: string;
   dateEmbauche?: string;
   sexe?: string;

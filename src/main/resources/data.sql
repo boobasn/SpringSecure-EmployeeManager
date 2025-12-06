@@ -9,19 +9,21 @@ VALUES
 ('f1a34dee-0964-4f46-992d-757e865e5efa', 'Ressources Humaines', 'Gestion des employés et des recrutements.'),
 ('d102937c-d4d5-498e-a040-3762f2dfb884', 'Comptabilité', 'Gestion financière et comptable de l’entreprise.');
 
----
+INSERT INTO postes (id, titre, description)
+VALUES 
+('a89ea774-eabd-430c-8bf6-5db819127cdz', 'developpeur', 'Département de développement logiciel et maintenance des systèmes.');
 
 -- ========================
 -- TABLE: employees
 -- ========================
-INSERT INTO employees (id, first_name, last_name, email, telephone, adresse, date_embauche, salaire, departement_id)
+INSERT INTO employees (id, first_name, last_name, matricule, email, telephone, adresse, date_embauche, salaire, departement_id)
 VALUES 
-('47ae43f6-d495-460e-80a6-2db50c65b965', 'Babou', 'Sene', 'babou.sene@entreprise.com', '771234567', 'Dakar, Sénégal', '2023-01-15', 450000, 'a89ea774-eabd-430c-8bf6-5db819127cda'),
-('006cc7ac-86b9-4101-b141-1c0326f5244b', 'Awa', 'Diop', 'awa.diop@entreprise.com', '770987654', 'Thiès, Sénégal', '2022-11-20', 350000, 'f1a34dee-0964-4f46-992d-757e865e5efa'),
-('a1b2c3d4-e5f6-7890-ab12-cd34ef567890', 'Moussa', 'Ba', 'moussa.ba@entreprise.com', '780456789', 'Saint-Louis, Sénégal', '2021-09-01', 600000, 'a89ea774-eabd-430c-8bf6-5db819127cda'),
-('d4e5f6a7-b890-12cd-34ef-567890a1b2c3', 'Fatou', 'Ndiaye', 'fatou.ndiaye@entreprise.com', '760789012', 'Dakar, Sénégal', '2024-03-12', 300000, 'd102937c-d4d5-498e-a040-3762f2dfb884'),
-('e5f6a7b8-9012-3cde-45f6-7890a1b2c3d4', 'Babou', 'Sene', 'babou.sene@entreprise.com', '771234567', 'Dakar, Sénégal', '2023-01-15', 450000, 'f1a34dee-0964-4f46-992d-757e865e5efa'),
-('f6a7b890-123c-d45f-6789-0a1b2c3d4e5f', 'Fatou', 'Ndiaye', 'fatou.ndiaye@entreprise.com', '760789012', 'Dakar, Sénégal', '2024-03-12', 300000, 'd102937c-d4d5-498e-a040-3762f2dfb884');
+('47ae43f6-d495-460e-80a6-2db50c65b965', 'Babou', 'Sene', 'K10001','babou.sene@entreprise.com', '771234567', 'Dakar, Sénégal', '2023-01-15', 450000, 'a89ea774-eabd-430c-8bf6-5db819127cda'),
+('006cc7ac-86b9-4101-b141-1c0326f5244b', 'Awa', 'Diop', 'K10002', 'awa.diop@entreprise.com', '770987654', 'Thiès, Sénégal', '2022-11-20', 350000, 'f1a34dee-0964-4f46-992d-757e865e5efa'),
+('a1b2c3d4-e5f6-7890-ab12-cd34ef567890', 'Moussa', 'Ba', 'K10003', 'moussa.ba@entreprise.com', '780456789', 'Saint-Louis, Sénégal', '2021-09-01', 600000, 'a89ea774-eabd-430c-8bf6-5db819127cda'),
+('d4e5f6a7-b890-12cd-34ef-567890a1b2c3', 'Fatou', 'Ndiaye', 'K10004', 'fatou.ndiaye@entreprise.com', '760789012', 'Dakar, Sénégal', '2024-03-12', 300000, 'd102937c-d4d5-498e-a040-3762f2dfb884'),
+('e5f6a7b8-9012-3cde-45f6-7890a1b2c3d4', 'Babou', 'Sene', 'K10005', 'babou.sene@entreprise.com', '771234567', 'Dakar, Sénégal', '2023-01-15', 450000, 'f1a34dee-0964-4f46-992d-757e865e5efa'),
+('f6a7b890-123c-d45f-6789-0a1b2c3d4e5f', 'Fatou', 'Ndiaye', 'K10006', 'fatou.ndiaye@entreprise.com', '760789012', 'Dakar, Sénégal', '2024-03-12', 300000, 'd102937c-d4d5-498e-a040-3762f2dfb884');
 
 ---
 

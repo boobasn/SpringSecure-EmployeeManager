@@ -5,6 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Data
@@ -30,9 +31,10 @@ public class Employee {
     private LocalDate dateNaissance;
     private LocalDate dateEmbauche;
     private double salaire;
-
+    private String matricule;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departement_id")
+    @JsonIgnore
     private Department departement;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -41,6 +43,7 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "poste_id" )
+    @JsonIgnore
     private Poste poste;
 
     @OneToMany(mappedBy = "employee")

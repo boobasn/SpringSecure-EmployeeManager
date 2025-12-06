@@ -31,11 +31,13 @@
 </div>
 
 
+<!-- =======================
+     EMPLOYEE CARDS
+======================= -->
 <div class="cards">
 
   <div class="card"
-       *ngFor="let emp of employees"
-       (click)="openProfile(emp)">
+       *ngFor="let emp of employees$ | async">
 
     <div class="status">
       <span class="active">Active</span>
@@ -57,81 +59,200 @@
       <p>📞 {{ emp.telephone }}</p>
     </div>
 
-    <p class="details">
-      Voir détails →
-    </p>
+    <div class="detail-actions">
+
+      <button class="icon-btn details-btn"
+              (click)="openProfile(emp); $event.stopPropagation()">
+        <span class="material-icons">visibility</span>
+      </button>
+
+      <button class="icon-btn edit-btn"
+              (click)="openEditModal(emp); $event.stopPropagation()">
+        <span class="material-icons">edit</span>
+      </button>
+
+      <button class="icon-btn delete-btn"
+              (click)="deleteEmployee(emp); $event.stopPropagation()">
+        <span class="material-icons">delete</span>
+      </button>
+
+    </div>
+
   </div>
 
 </div>
 
 
-<!-- ===============================
-   EMPLOYEE DETAIL OVERLAY
-=================================-->
+<!-- =======================
+     DETAIL OVERLAY
+======================= -->
 <div class="detail-bg" *ngIf="selectedEmployee as emp">
 
   <div class="detail-card">
 
-    <!-- HEADER -->
     <div class="detail-header">
-
       <div class="avatar-wrap">
         <img src="https://i.pravatar.cc/150">
         <h2>
-          {{ selectedEmployee.firstName }}
-          {{ selectedEmployee.lastName }}
+          {{ emp.firstName }} {{ emp.lastName }}
         </h2>
-        <p>{{ selectedEmployee.poste?.titre || 'Employé' }}</p>
+        <p>{{ emp.poste?.titre || 'Employé' }}</p>
       </div>
 
       <button class="close" (click)="closeDetails()">✖</button>
-
     </div>
 
-    <!-- INFOS GRID -->
+
     <div class="detail-grid">
 
+      <!-- PRENOM -->
+      <div>
+        <label>Prénom</label>
+        <ng-container *ngIf="isEditMode; else fn">
+          <input [(ngModel)]="editEmployeeData.firstName">
+        </ng-container>
+        <ng-template #fn><p>{{ emp.firstName }}</p></ng-template>
+      </div>
+
+
+      <!-- NOM -->
+      <div>
+        <label>Nom</label>
+        <ng-container *ngIf="isEditMode; else ln">
+          <input [(ngModel)]="editEmployeeData.lastName">
+        </ng-container>
+        <ng-template #ln><p>{{ emp.lastName }}</p></ng-template>
+      </div>
+
+
+      <!-- MATRICULE -->
+      <div>
+        <label>Matricule</label>
+        <ng-container *ngIf="isEditMode; else mat">
+          <input [(ngModel)]="editEmployeeData.matricule">
+        </ng-container>
+        <ng-template #mat><p>{{ emp.matricule }}</p></ng-template>
+      </div>
+
+
+      <!-- EMAIL -->
       <div>
         <label>Email</label>
-        <p>{{ selectedEmployee.email }}</p>
+        <ng-container *ngIf="isEditMode; else em">
+          <input [(ngModel)]="editEmployeeData.email">
+        </ng-container>
+        <ng-template #em><p>{{ emp.email }}</p></ng-template>
       </div>
 
+
+      <!-- TEL -->
       <div>
         <label>Téléphone</label>
-        <p>{{ selectedEmployee.telephone }}</p>
+        <ng-container *ngIf="isEditMode; else tel">
+          <input [(ngModel)]="editEmployeeData.telephone">
+        </ng-container>
+        <ng-template #tel><p>{{ emp.telephone }}</p></ng-template>
       </div>
 
+
+      <!-- SALAIRE -->
       <div>
         <label>Salaire</label>
-        <p>{{ selectedEmployee.salaire || 0 }} FCFA</p>
+        <ng-container *ngIf="isEditMode; else sal">
+          <input type="number"
+                 [(ngModel)]="editEmployeeData.salaire">
+        </ng-container>
+        <ng-template #sal><p>{{ emp.salaire }}</p></ng-template>
       </div>
 
-      <div>
-        <label>Date embauche</label>
-        <p>{{ selectedEmployee.dateEmbauche }}</p>
-      </div>
 
+      <!-- SEXE -->
       <div>
         <label>Sexe</label>
-        <p>{{ selectedEmployee.sexe }}</p>
+        <ng-container *ngIf="isEditMode; else sx">
+          <input [(ngModel)]="editEmployeeData.sexe">
+        </ng-container>
+        <ng-template #sx><p>{{ emp.sexe }}</p></ng-template>
       </div>
 
+
+      <!-- ADRESSE -->
       <div>
         <label>Adresse</label>
-        <p>{{ selectedEmployee.adresse }}</p>
+        <ng-container *ngIf="isEditMode; else adr">
+          <input [(ngModel)]="editEmployeeData.adresse">
+        </ng-container>
+        <ng-template #adr><p>{{ emp.adresse }}</p></ng-template>
       </div>
+
+
+      <!-- DEPARTEMENT -->
+      <div>
+        <label>Département</label>
+
+        <ng-container *ngIf="isEditMode; else dep">
+
+          <select [(ngModel)]="selectedDepartementId"
+                  (ngModelChange)="editEmployeeData.departement && (editEmployeeData.departement.id = $event)">
+
+            <option value="">-- Choisir un département --</option>
+
+            <option *ngFor="let d of departements"
+                    [value]="d.id">
+              {{ d.name }}
+            </option>
+
+          </select>
+
+        </ng-container>
+
+        <ng-template #dep>
+          <p>{{ emp.departement?.name || 'Non assigné' }}</p>
+        </ng-template>
+      </div>
+
+
+      <!-- POSTE -->
+      <div>
+        <label>Poste</label>
+
+        <ng-container *ngIf="isEditMode; else pst">
+
+          <select [(ngModel)]="selectedPosteId"
+                  (ngModelChange)="editEmployeeData.poste && (editEmployeeData.poste.id = $event)">
+
+            <option value="">-- Choisir un poste --</option>
+
+            <option *ngFor="let p of postes"
+                    [value]="p.id">
+              {{ p.titre }}
+            </option>
+
+          </select>
+
+        </ng-container>
+
+        <ng-template #pst>
+          <p>{{ emp.poste?.titre || 'Non assigné' }}</p>
+        </ng-template>
+      </div>
+
 
     </div>
 
-    <!-- ACTIONS -->
-    <div class="detail-actions">
 
-      <button class="edit" (click)="editEmployee()">
-        ✏ Modifier
+    <!-- ACTIONS -->
+    <div class="detail-actions-edit"
+         [hidden]="!isEditMode">
+
+      <button class="save"
+              (click)="saveUpdate(); $event.stopPropagation();">
+        💾 Enregistrer
       </button>
 
-      <button class="delete" (click)="deleteEmployee()">
-        🗑 Supprimer
+      <button class="cancel"
+              (click)="cancelEdit()">
+        ❌ Annuler
       </button>
 
     </div>
@@ -141,33 +262,29 @@
 </div>
 
 
-
-
-
+<!-- =======================
+     ADD / EDIT MODAL
+======================= -->
 <div class="modal-bg" *ngIf="showModal">
 
   <div class="modal">
 
-    <h2>Ajouter un employé</h2>
+    <h2>{{ isEditMode ? 'Modifier un employé' : 'Ajouter un employé' }}</h2>
 
-    <!-- STEP INDICATOR -->
     <div class="steps">
       <div [class.active]="step === 1">1. Identité</div>
       <div [class.active]="step === 2">2. Pro</div>
-      <div [class.active]="step === 3">3. Compte</div>
     </div>
 
 
-    <!-- ✅ STEP 1 : IDENTITE -->
+    <!-- STEP 1 -->
     <div *ngIf="step === 1">
 
-      <input type="text" [(ngModel)]="newEmployee.firstName" placeholder="Prénom">
-      <input type="text" [(ngModel)]="newEmployee.lastName" placeholder="Nom">
-
-      <input type="email" [(ngModel)]="newEmployee.email" placeholder="Email">
-      <input type="tel" [(ngModel)]="newEmployee.telephone" placeholder="Téléphone">
-
-      <input type="text" [(ngModel)]="newEmployee.adresse" placeholder="Adresse">
+      <input [(ngModel)]="newEmployee.firstName" placeholder="Prénom">
+      <input [(ngModel)]="newEmployee.lastName" placeholder="Nom">
+      <input [(ngModel)]="newEmployee.email" placeholder="Email">
+      <input [(ngModel)]="newEmployee.telephone" placeholder="Téléphone">
+      <input [(ngModel)]="newEmployee.adresse" placeholder="Adresse">
 
       <select [(ngModel)]="newEmployee.sexe">
         <option value="">Sexe</option>
@@ -176,56 +293,47 @@
       </select>
 
       <label>Date de naissance</label>
-      <input type="date" [(ngModel)]="newEmployee.dateNaissance">
+      <input type="date"
+             [(ngModel)]="newEmployee.dateNaissance">
 
     </div>
 
 
-    <!-- ✅ STEP 2 : PROFESSIONNEL -->
+    <!-- STEP 2 -->
     <div *ngIf="step === 2">
 
       <label>Date d’embauche</label>
-      <input type="date" [(ngModel)]="newEmployee.dateEmbauche">
+      <input type="date"
+             [(ngModel)]="newEmployee.dateEmbauche">
 
-      <input type="number" [(ngModel)]="newEmployee.salaire" placeholder="Salaire">
+      <input type="number"
+             [(ngModel)]="newEmployee.salaire"
+             placeholder="Salaire">
 
-      <!-- BONUS futur -->
-      <!--
+
       <select [(ngModel)]="newEmployee.poste.id">
-        ...
+        <option value="">-- Choisir un poste --</option>
+
+        <option *ngFor="let p of postes"
+                [value]="p.id">
+          {{ p.titre }}
+        </option>
       </select>
+
 
       <select [(ngModel)]="newEmployee.departement.id">
-        ...
-      </select>
-      -->
+        <option value="">-- Choisir un département --</option>
 
-    </div>
-
-
-    <!-- ✅ STEP 3 : USER -->
-    <div *ngIf="step === 3">
-
-      <input
-        type="text"
-        [(ngModel)]="newEmployee.user.username"
-        placeholder="Login">
-
-      <input
-        type="password"
-        [(ngModel)]="newEmployee.user.password"
-        placeholder="Mot de passe">
-
-      <select [(ngModel)]="newEmployee.user.role">
-        <option value="EMPLOYE">EMPLOYE</option>
-        <option value="RH">RH</option>
-        <option value="ADMIN">ADMIN</option>
+        <option *ngFor="let d of departements"
+                [value]="d.id">
+          {{ d.name }}
+        </option>
       </select>
 
     </div>
 
 
-    <!-- ✅ ACTIONS -->
+    <!-- ACTIONS -->
     <div class="modal-actions">
 
       <button *ngIf="step > 1"
@@ -234,13 +342,13 @@
         ◀ Précédent
       </button>
 
-      <button *ngIf="step < 3"
+      <button *ngIf="step < 2"
               class="save"
               (click)="nextStep()">
         Suivant ▶
       </button>
 
-      <button *ngIf="step === 3"
+      <button *ngIf="step === 2"
               class="save"
               (click)="saveEmployee()">
         💾 Enregistrer
@@ -253,8 +361,6 @@
 
     </div>
 
-
   </div>
 
 </div>
-
