@@ -14,7 +14,13 @@ public interface EmployeeRepository extends CrudRepository<Employee, String> {
     Employee findByFirstname(@Param("first_name") String first_name , @Param("last_name") String last_name);
 
     Employee findByUser_Id(String userId);
-    boolean existsByEmail(String email);
+    boolean existsByEmailIgnoreCase(String email);
+
+    /**
+     * (Optionnel mais utile)
+     * ✅ Trouver un employé par email ignoré en casse
+     */
+    Employee findByEmailIgnoreCase(String email);
 
 
 }

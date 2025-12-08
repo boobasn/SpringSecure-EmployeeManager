@@ -1,5 +1,11 @@
 <div class="topbar">
+  <div *ngIf="notification.show"
+      class="notification"
+      [ngClass]="notification.type">
 
+    {{ notification.message }}
+
+  </div>
   <div class="left-tools">
     <input
       type="text"
@@ -348,9 +354,11 @@
         Suivant ▶
       </button>
 
-      <button *ngIf="step === 2"
+      <button type="button"
+              *ngIf="step === 2"
               class="save"
-              (click)="saveEmployee()">
+              (click)="saveEmployee()"
+              >
         💾 Enregistrer
       </button>
 

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmployeeService } from '../../Services/employee';
 import { Employee } from '../../model/employee';
-
+import { finalize } from 'rxjs/operators';
 import { Poste } from '../../model/poste';
 import { Department } from '../../model/departement';
 import { PosteService } from '../../Services/poste-service';
+import { ChangeDetectorRef } from '@angular/core';
 import { DepartementService } from '../../Services/departement-service'
 
 
@@ -25,6 +26,7 @@ export class EmployeeComponent implements OnInit {
   /** LIST */
   employees$!: Observable<Employee[]>;
   search = '';
+  errorMessage: string = '';
   postes: Poste[] = [];
   departements: Department[] = [];
   /** MODAL */
@@ -57,7 +59,8 @@ export class EmployeeComponent implements OnInit {
     private employeeService: EmployeeService,
     private posteService: PosteService,
     private departementService: DepartementService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef  
   ) {}
 
   ngOnInit(): void {
@@ -102,6 +105,7 @@ export class EmployeeComponent implements OnInit {
   closeModal(){
     this.showModal = false;
     this.step = 1;
+    this.cdr.detectChanges();
   }
 
   /* ✅ 2 steps only */
@@ -114,17 +118,25 @@ export class EmployeeComponent implements OnInit {
   }
 
   saveEmployee(){
-    this.employeeService.addEmployee(this.newEmployee).subscribe({
-      next: () => {
-        this.loadEmployees();
-        this.closeModal();
-      },
-      error: err => {
-        console.error(err);
-        alert("Erreur lors de l'ajout");
-      }
-    });
-  }
+  this.errorMessage = '';
+  this.employeeService.addEmployee(this.newEmployee).subscribe({
+
+    next: () => {      
+      // ✅ NOTIF SUCCÈS
+      this.showSuccess("Employé créé avec succès !");
+      this.closeModal();
+      this.loadEmployees();
+    },
+      
+    error: err => {
+      const message = this.extractErrorMessage(err);
+      this.showError(message);
+      console.error(err);
+      
+    }
+
+  });
+}
 
   /* ================= DETAILS ================= */
 
@@ -162,11 +174,7 @@ isSaving = false;
 
 saveUpdate(){
 
-  if(this.isSaving) return;
-
-  if(!this.editEmployeeData?.id){
-    return;
-  }
+  if(this.isSaving || !this.editEmployeeData?.id) return;
 
   this.isSaving = true;
 
@@ -177,17 +185,21 @@ saveUpdate(){
       next: () => {
         this.isSaving = false;
         this.isEditMode = false;
+
         this.loadEmployees();
         this.closeDetails();
+
+        this.showSuccess("Employé modifié avec succès !");
       },
 
       error: err => {
         this.isSaving = false;
-        console.error("Erreur update:", err);
-        alert("Erreur lors de la modification");
+        console.error(err);
+        const message = this.extractErrorMessage(err);
+        this.showError(message);
       }
 
-    });
+  });
 }
 
 
@@ -219,6 +231,47 @@ saveUpdate(){
       }
 
     });
-
+    this.loadEmployees();
   }
+  notification = {
+  show: false,
+  type: '' as 'success' | 'error',
+  message: ''
+};
+showSuccess(message: string){
+  this.notification = {
+    show: true,
+    type: 'success',
+    message
+  };
+
+  setTimeout(() => this.notification.show = false, 3500);
+}
+
+showError(message: string){
+  this.notification = {
+    show: true,
+    type: 'error',
+    message
+  };
+
+  setTimeout(() => this.notification.show = false, 5000);
+}
+
+/** 🔥 Capture propre du message backend */
+extractErrorMessage(err: any): string {
+
+  // Si Spring envoie {message:"..."}
+  if (err?.error?.message) {
+    return err.error.message;
+  }
+
+  // Erreurs Bean Validation etc.
+  if (typeof err?.error === 'string') {
+    return err.error;
+  }
+
+  return "Erreur serveur. Veuillez réessayer.";
+}
+
 }

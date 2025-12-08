@@ -111,7 +111,7 @@ public class EmployeeService {
     }
 
 
-
+    @Transactional
     public Employee saveEmployee(Employee employee) {
 
         if (employee == null) {
@@ -127,9 +127,16 @@ public class EmployeeService {
         }
 
         // ✅ Vérifier email unique
-        if (employeeRepository.existsByEmail(employee.getEmail())) {
+        String email = employee.getEmail().trim().toLowerCase();
+        employee.setEmail(email);
+
+        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            throw new BadRequestException("Format d'email invalide.");
+        }
+
+        if (employeeRepository.existsByEmailIgnoreCase(email)) {
             throw new ResourceAlreadyExistsException(
-                "Un employé existe déjà avec cet email : " + employee.getEmail()
+                "Un employé existe déjà avec cet email : " + email
             );
         }
 
