@@ -7,7 +7,7 @@ import { EmployeeProfileComponent } from './pages/profile/profile';
 import { AuthGuard } from './Services/auth.guard';
 import { EmployeeComponent } from './pages/employee/employee';
 import { PayrollComponent } from './pages/payroll/payroll';
-
+import { CongeComponent } from './pages/conge-component/conge-component';
 export const routes: Routes = [
 
   // ===== PUBLIC =====
@@ -50,6 +50,12 @@ export const routes: Routes = [
       {
         path: 'logout',
         component: Logout
+      },
+
+            {
+        path: 'leaves',
+        component: CongeComponent,
+        data: { roles: ['FINANCE','ADMIN'] }
       },
     ]
   },

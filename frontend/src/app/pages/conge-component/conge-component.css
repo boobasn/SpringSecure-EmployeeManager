@@ -1,0 +1,96 @@
+.conge-container{
+  padding:18px;
+  max-width:980px;
+  margin:0 auto;
+  font-family:Poppins, sans-serif;
+}
+
+/* Formulaire */
+.form-card{
+  background:#fff;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+  margin-bottom:20px;
+}
+
+.form-card h2{
+  margin-top:0;
+}
+body {
+  background: red !important;
+}
+.form-group{
+  display:flex;
+  flex-direction:column;
+  margin-bottom:12px;
+}
+
+.form-group label{
+  font-size:13px;
+  margin-bottom:4px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  padding:8px 10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+/* Boutons */
+button{
+  padding:8px 14px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  background:#1a237e;
+  color:#fff;
+}
+
+button:disabled{
+  background:#ccc;
+}
+
+/* Liste */
+.list-card{
+  background:#fff;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th, td{
+  padding:10px;
+  border-bottom:1px solid #eee;
+}
+
+th{
+  background:#f5f5f5;
+}
+
+td button{
+  margin-right:6px;
+}
+.motif-cell {
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.motif-cell:hover {
+  overflow: visible;
+  white-space: normal;
+  background-color: #f9f9f9;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+}

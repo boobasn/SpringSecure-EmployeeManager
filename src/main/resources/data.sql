@@ -42,12 +42,12 @@ VALUES
 -- ========================
 -- TABLE: conge
 -- ========================
-INSERT INTO conge (id, type, date_debut, date_fin, status, employee_id)
+INSERT INTO conge (id, type, motif, date_debut, date_fin, status, employee_id)
 VALUES
-('f68fc875-2609-4f12-bdad-63e9dfa763d0', 'MALADIE', '2024-05-01', '2024-05-05', 'REFUSE', '47ae43f6-d495-460e-80a6-2db50c65b965'),
-('0d056829-eeda-40d8-954e-c1a29027ef14', 'ANNUELLE', '2024-08-10', '2024-08-20', 'REFUSE', '006cc7ac-86b9-4101-b141-1c0326f5244b'),
-('1f82095f-d23e-44af-9a17-6c6de2238452', 'AUTRE', '2024-06-15', '2024-06-18', 'REFUSE', 'a1b2c3d4-e5f6-7890-ab12-cd34ef567890'),
-('b34ccfe1-183e-4983-b8c5-2a902825302c', 'ANNUELLE', '2024-09-01', '2024-09-10', 'REFUSE', 'd4e5f6a7-b890-12cd-34ef-567890a1b2c3');
+('f68fc875-2609-4f12-bdad-63e9dfa763d0', 'MALADIE', 'Maladie', '2024-05-01', '2024-05-05', 'ATTENTE', '47ae43f6-d495-460e-80a6-2db50c65b965'),
+('0d056829-eeda-40d8-954e-c1a29027ef14', 'ANNUELLE', 'Vacances annuelles', '2024-08-10', '2024-08-20', 'REFUSE', '006cc7ac-86b9-4101-b141-1c0326f5244b'),
+('1f82095f-d23e-44af-9a17-6c6de2238452', 'AUTRE', 'Congé exceptionnel jen edjzezkn edekzdejz  diezn;dbejkk eziekznklefklf', '2024-06-15', '2024-06-18', 'REFUSE', 'a1b2c3d4-e5f6-7890-ab12-cd34ef567890'),
+('b34ccfe1-183e-4983-b8c5-2a902825302c', 'ANNUELLE', 'Vacances annuelles', '2024-09-01', '2024-09-10', 'ATTENTE', 'd4e5f6a7-b890-12cd-34ef-567890a1b2c3');
 
 ---
 

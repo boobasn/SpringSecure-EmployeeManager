@@ -16,8 +16,8 @@ export interface Leave {
 
   typeConge: TypeConge;
 
-  dateDebut: string;
-  dateFin: string;
+  startDate: string;
+  endDate: string;
 
   status: Status;
 
